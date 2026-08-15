@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SmartBox - Admin Login</title>
+
+
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eaf2ff,
+                    #f8f9fa
+                );
+
+            font-family:
+                Arial,
+                "Noto Sans Thai",
+                sans-serif;
+
+        }
+
+
+        .login-card {
+
+            width: 100%;
+
+            max-width: 420px;
+
+            background: white;
+
+            border-radius: 22px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 15px 40px
+                rgba(0,0,0,0.10);
+
+        }
+
+
+        .logo {
+
+            width: 75px;
+
+            height: 75px;
+
+            margin: auto;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            border-radius: 20px;
+
+            background: #0d6efd;
+
+            color: white;
+
+            font-size: 2.2rem;
+
+            box-shadow:
+                0 8px 20px
+                rgba(13,110,253,0.25);
+
+        }
+
+
+        .title {
+
+            font-weight: 800;
+
+            color: #0d6efd;
+
+        }
+
+
+        .form-control {
+
+            border-radius: 12px;
+
+            padding: 12px;
+
+        }
+
+
+        .login-btn {
+
+            border-radius: 12px;
+
+            padding: 12px;
+
+            font-weight: bold;
+
+        }
+
+
+        .back-btn {
+
+            border-radius: 12px;
+
+        }
+
+
+        .loading {
+
+            display: none;
+
+        }
+
+
+        .small-text {
+
+            font-size: 0.9rem;
+
+            color: #6c757d;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="login-card">
+
+
+    <!-- LOGO -->
+
+    <div class="text-center mb-4">
+
+        <div class="logo">
+
+            🚪
+
+        </div>
+
+    </div>
+
+
+
+    <!-- TITLE -->
+
+    <div class="text-center mb-4">
+
+        <h2 class="title">
+
+            SmartBox Admin
+
+        </h2>
+
+        <p class="text-muted mb-0">
+
+            ระบบจัดการตู้ล็อกเกอร์
+
+        </p>
+
+    </div>
+
+
+
+    <!-- LOGIN FORM -->
+
+    <form id="loginForm">
+
+
+        <!-- EMAIL -->
+
+        <div class="mb-3">
+
+            <label
+                for="email"
+                class="form-label fw-bold"
+            >
+
+                📧 Email
+
+            </label>
+
+
+            <input
+                type="email"
+                id="email"
+                class="form-control"
+                placeholder="กรอก Email"
+                autocomplete="email"
+                required
+            >
+
+        </div>
+
+
+
+        <!-- PASSWORD -->
+
+        <div class="mb-3">
+
+            <label
+                for="password"
+                class="form-label fw-bold"
+            >
+
+                🔑 Password
+
+            </label>
+
+
+            <input
+                type="password"
+                id="password"
+                class="form-control"
+                placeholder="กรอก Password"
+                autocomplete="current-password"
+                required
+            >
+
+        </div>
+
+
+
+        <!-- ERROR -->
+
+        <div
+            id="errorMessage"
+            class="alert alert-danger d-none"
+        >
+
+        </div>
+
+
+
+        <!-- SUCCESS -->
+
+        <div
+            id="successMessage"
+            class="alert alert-success d-none"
+        >
+
+        </div>
+
+
+
+        <!-- LOGIN BUTTON -->
+
+        <button
+            type="submit"
+            id="loginBtn"
+            class="btn btn-primary login-btn w-100"
+        >
+
+            🔐 เข้าสู่ระบบ
+
+        </button>
+
+
+
+        <!-- LOADING -->
+
+        <div
+            id="loadingMessage"
+            class="text-center mt-3 loading"
+        >
+
+            <div
+                class="spinner-border text-primary"
+                role="status"
+            >
+
+            </div>
+
+            <div class="small-text mt-2">
+
+                กำลังตรวจสอบข้อมูล...
+
+            </div>
+
+        </div>
+
+
+    </form>
+
+
+
+    <!-- BACK TO CUSTOMER -->
+
+    <div class="text-center mt-4">
+
+        <a
+            href="index.html"
+            class="btn btn-outline-secondary back-btn w-100"
+        >
+
+            🏠 กลับหน้าหลัก
+
+        </a>
+
+    </div>
+
+
+
+    <!-- FOOTER -->
+
+    <div class="text-center mt-4">
+
+        <div class="small-text">
+
+            SmartBox Station © 2026
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ======================================================
+     FIREBASE
+====================================================== -->
+
+<script type="module">
+
+
+/*
+==========================================================
+IMPORT FIREBASE
+==========================================================
+*/
+
+import {
+
+    initializeApp
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+
+import {
+
+    getAuth,
+
+    signInWithEmailAndPassword,
+
+    onAuthStateChanged
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+
+/*
+==========================================================
+FIREBASE CONFIG
+==========================================================
+*/
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyARnzW3_ECpYOsKpKeP_KT90kgJImvGzOg",
+
+    authDomain:
+        "smartboxx-2b81e.firebaseapp.com",
+
+    databaseURL:
+        "https://smartboxx-2b81e-default-rtdb.firebaseio.com",
+
+    projectId:
+        "smartboxx-2b81e",
+
+    storageBucket:
+        "smartboxx-2b81e.firebasestorage.app",
+
+    messagingSenderId:
+        "1000015980584",
+
+    appId:
+        "1:1000015980584:web:0dc78a8319a4272d15ed1d",
+
+    measurementId:
+        "G-3KC8NRT65H"
+
+};
+
+
+
+/*
+==========================================================
+INITIALIZE FIREBASE
+==========================================================
+*/
+
+const app =
+    initializeApp(
+        firebaseConfig
+    );
+
+
+const auth =
+    getAuth(app);
+
+
+
+/*
+==========================================================
+DOM
+==========================================================
+*/
+
+const loginForm =
+    document.getElementById(
+        "loginForm"
+    );
+
+
+const emailInput =
+    document.getElementById(
+        "email"
+    );
+
+
+const passwordInput =
+    document.getElementById(
+        "password"
+    );
+
+
+const loginBtn =
+    document.getElementById(
+        "loginBtn"
+    );
+
+
+const errorMessage =
+    document.getElementById(
+        "errorMessage"
+    );
+
+
+const successMessage =
+    document.getElementById(
+        "successMessage"
+    );
+
+
+const loadingMessage =
+    document.getElementById(
+        "loadingMessage"
+    );
+
+
+
+/*
+==========================================================
+LOGIN
+==========================================================
+*/
+
+loginForm.addEventListener(
+
+    "submit",
+
+    async (event) => {
+
+
+        /*
+            ป้องกัน Form Reload
+        */
+
+        event.preventDefault();
+
+
+
+        const email =
+            emailInput.value.trim();
+
+
+        const password =
+            passwordInput.value;
+
+
+
+        /*
+            ล้างข้อความเก่า
+        */
+
+        errorMessage.classList.add(
+            "d-none"
+        );
+
+
+        successMessage.classList.add(
+            "d-none"
+        );
+
+
+
+        /*
+            แสดง Loading
+        */
+
+        loginBtn.disabled =
+            true;
+
+
+        loginBtn.innerText =
+            "🔄 กำลังเข้าสู่ระบบ...";
+
+
+        loadingMessage.style.display =
+            "block";
+
+
+
+        try {
+
+
+            /*
+                Login Firebase
+            */
+
+            await signInWithEmailAndPassword(
+
+                auth,
+
+                email,
+
+                password
+
+            );
+
+
+
+            /*
+                Login สำเร็จ
+            */
+
+            successMessage.innerText =
+                "✅ เข้าสู่ระบบสำเร็จ กำลังเข้าสู่ Dashboard...";
+
+
+            successMessage.classList.remove(
+                "d-none"
+            );
+
+
+
+            /*
+            ==================================================
+            สำคัญที่สุด
+            ==================================================
+
+            หลัง Login สำเร็จ
+
+            ไปที่:
+
+            admin-dashboard.html
+
+            ไม่ใช่:
+
+            admin.html
+            */
+
+            setTimeout(() => {
+
+                window.location.href =
+                    "admin-dashboard.html";
+
+            }, 500);
+
+
+        }
+
+        catch (error) {
+
+
+            console.error(
+                "Login Error:",
+                error
+            );
+
+
+
+            /*
+                แปลง Error Firebase
+                ให้เป็นภาษาไทย
+            */
+
+            let message =
+                "ไม่สามารถเข้าสู่ระบบได้";
+
+
+            if (
+                error.code ===
+                "auth/invalid-credential"
+            ) {
+
+                message =
+                    "❌ Email หรือ Password ไม่ถูกต้อง";
+
+            }
+
+            else if (
+                error.code ===
+                "auth/user-not-found"
+            ) {
+
+                message =
+                    "❌ ไม่พบบัญชีผู้ใช้นี้";
+
+            }
+
+            else if (
+                error.code ===
+                "auth/wrong-password"
+            ) {
+
+                message =
+                    "❌ Password ไม่ถูกต้อง";
+
+            }
+
+            else if (
+                error.code ===
+                "auth/invalid-email"
+            ) {
+
+                message =
+                    "❌ รูปแบบ Email ไม่ถูกต้อง";
+
+            }
+
+            else if (
+                error.code ===
+                "auth/too-many-requests"
+            ) {
+
+                message =
+                    "⚠️ ลองเข้าสู่ระบบหลายครั้งเกินไป กรุณารอสักครู่";
+
+            }
+
+            else if (
+                error.code ===
+                "auth/network-request-failed"
+            ) {
+
+                message =
+                    "❌ ไม่สามารถเชื่อมต่อ Firebase ได้ กรุณาตรวจสอบอินเทอร์เน็ต";
+
+            }
+
+            else {
+
+                message =
+                    "❌ เกิดข้อผิดพลาด: " +
+                    error.message;
+
+            }
+
+
+
+            errorMessage.innerText =
+                message;
+
+
+            errorMessage.classList.remove(
+                "d-none"
+            );
+
+
+            loginBtn.disabled =
+                false;
+
+
+            loginBtn.innerText =
+                "🔐 เข้าสู่ระบบ";
+
+
+            loadingMessage.style.display =
+                "none";
+
+        }
+
+    }
+
+);
+
+
+
+/*
+==========================================================
+ตรวจสอบสถานะ Login
+==========================================================
+
+ถ้า User Login อยู่แล้ว
+
+ไม่ต้อง Login ซ้ำ
+
+ให้ไป Dashboard โดยตรง
+==========================================================
+*/
+
+onAuthStateChanged(
+
+    auth,
+
+    (user) => {
+
+
+        if (user) {
+
+
+            /*
+                ถ้าเปิดหน้า Login
+                แต่ Login อยู่แล้ว
+
+                ให้ไป Dashboard
+            */
+
+            console.log(
+                "User already logged in:",
+                user.email
+            );
+
+
+            /*
+                ป้องกันการ Redirect
+                ถ้ากำลัง Login อยู่
+
+                แต่ถ้าเข้าหน้า Login
+                ตอนที่มี Session อยู่
+                ให้ไป Dashboard
+            */
+
+            if (
+                !sessionStorage.getItem(
+                    "smartbox_login_processing"
+                )
+            ) {
+
+                sessionStorage.setItem(
+                    "smartbox_login_processing",
+                    "true"
+                );
+
+
+                window.location.href =
+                    "admin-dashboard.html";
+
+            }
+
+        }
+
+    }
+
+);
+
+
+/*
+==========================================================
+ล้างสถานะ Processing
+==========================================================
+*/
+
+window.addEventListener(
+
+    "pageshow",
+
+    () => {
+
+        sessionStorage.removeItem(
+            "smartbox_login_processing"
+        );
+
+    }
+
+);
+
+
+</script>
+
+
+</body>
+
+</html>

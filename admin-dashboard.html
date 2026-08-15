@@ -1,0 +1,3794 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>SmartBox Admin Dashboard</title>
+
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+rel="stylesheet"
+>
+
+<style>
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+:root {
+
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --success: #16a34a;
+    --danger: #dc2626;
+    --warning: #f59e0b;
+    --dark: #111827;
+    --muted: #6b7280;
+    --bg: #f3f6fb;
+    --card: #ffffff;
+
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+    margin: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f4f7fb,
+            #eef3f9
+        );
+
+    font-family:
+        Arial,
+        "Noto Sans Thai",
+        sans-serif;
+
+    color: var(--dark);
+
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.admin-header {
+
+    background:
+        linear-gradient(
+            135deg,
+            #1d4ed8,
+            #2563eb,
+            #3b82f6
+        );
+
+    color: white;
+
+    border-radius: 24px;
+
+    padding: 25px 30px;
+
+    margin-bottom: 25px;
+
+    box-shadow:
+        0 15px 35px
+        rgba(37,99,235,0.20);
+
+}
+
+
+.admin-logo {
+
+    width: 55px;
+    height: 55px;
+
+    background:
+        rgba(255,255,255,0.18);
+
+    border-radius: 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 28px;
+
+}
+
+
+.admin-title {
+
+    font-size: 1.8rem;
+
+    font-weight: 800;
+
+}
+
+
+.admin-subtitle {
+
+    opacity: 0.85;
+
+}
+
+
+/* =====================================================
+   CARDS
+===================================================== */
+
+.card {
+
+    border: none !important;
+
+    border-radius: 20px !important;
+
+    box-shadow:
+        0 8px 30px
+        rgba(15,23,42,0.06) !important;
+
+}
+
+
+.stat-card {
+
+    padding: 22px;
+
+    min-height: 150px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    transition: 0.25s;
+
+}
+
+
+.stat-card:hover {
+
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        0 15px 35px
+        rgba(15,23,42,0.10) !important;
+
+}
+
+
+.stat-icon {
+
+    width: 52px;
+
+    height: 52px;
+
+    border-radius: 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 25px;
+
+    margin-bottom: 12px;
+
+}
+
+
+.icon-blue {
+
+    background: #dbeafe;
+
+}
+
+
+.icon-green {
+
+    background: #dcfce7;
+
+}
+
+
+.icon-red {
+
+    background: #fee2e2;
+
+}
+
+
+.icon-orange {
+
+    background: #ffedd5;
+
+}
+
+
+.stat-title {
+
+    color: var(--muted);
+
+    font-size: 0.95rem;
+
+}
+
+
+.stat-number {
+
+    font-size: 1.8rem;
+
+    font-weight: 800;
+
+    margin-top: 5px;
+
+}
+
+
+/* =====================================================
+   SECTION
+===================================================== */
+
+.section-title {
+
+    font-size: 1.25rem;
+
+    font-weight: 800;
+
+    margin-bottom: 15px;
+
+}
+
+
+.section-title span {
+
+    margin-right: 8px;
+
+}
+
+
+/* =====================================================
+   LOCKER
+===================================================== */
+
+.locker-card {
+
+    padding: 25px;
+
+    transition: 0.25s;
+
+    border: 2px solid transparent !important;
+
+}
+
+
+.locker-card:hover {
+
+    transform:
+        translateY(-5px);
+
+}
+
+
+.locker-number {
+
+    font-size: 1.35rem;
+
+    font-weight: 800;
+
+}
+
+
+.locker-status {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 7px 14px;
+
+    border-radius: 50px;
+
+    font-size: 0.85rem;
+
+    font-weight: 700;
+
+}
+
+
+.status-free {
+
+    background: #dcfce7;
+
+    color: #15803d;
+
+}
+
+
+.status-busy {
+
+    background: #fee2e2;
+
+    color: #b91c1c;
+
+}
+
+
+.locker-info {
+
+    margin-top: 20px;
+
+}
+
+
+.info-label {
+
+    color: var(--muted);
+
+    font-size: 0.85rem;
+
+    margin-top: 12px;
+
+}
+
+
+.info-value {
+
+    font-weight: 700;
+
+}
+
+
+.current-price {
+
+    font-size: 1.7rem;
+
+    font-weight: 800;
+
+    color: var(--danger);
+
+}
+
+
+.service-price {
+
+    color: var(--muted);
+
+    font-size: 0.85rem;
+
+}
+
+
+/* =====================================================
+   REVENUE
+===================================================== */
+
+.revenue-card {
+
+    padding: 25px;
+
+    text-align: center;
+
+    transition: 0.25s;
+
+}
+
+
+.revenue-card:hover {
+
+    transform:
+        translateY(-4px);
+
+}
+
+
+.revenue-icon {
+
+    font-size: 2.5rem;
+
+}
+
+
+.revenue-locker {
+
+    font-weight: 800;
+
+    margin-top: 8px;
+
+}
+
+
+.revenue-value {
+
+    font-size: 1.8rem;
+
+    font-weight: 800;
+
+    color: var(--success);
+
+}
+
+
+/* =====================================================
+   TOP LOCKER
+===================================================== */
+
+.top-locker {
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff7d6,
+            #fff
+        );
+
+    border:
+        2px solid #facc15 !important;
+
+}
+
+
+.rank-number {
+
+    font-size: 2.3rem;
+
+    font-weight: 900;
+
+    color: #d97706;
+
+}
+
+
+/* =====================================================
+   BUTTON
+===================================================== */
+
+.btn {
+
+    border-radius: 11px;
+
+    font-weight: 600;
+
+}
+
+
+.btn-primary {
+
+    background:
+        var(--primary);
+
+    border-color:
+        var(--primary);
+
+}
+
+
+.btn-primary:hover {
+
+    background:
+        var(--primary-dark);
+
+}
+
+
+/* =====================================================
+   FILTER
+===================================================== */
+
+.filter-card {
+
+    background: #f8fafc;
+
+}
+
+
+.form-control,
+.form-select {
+
+    border-radius: 11px;
+
+    padding: 10px 13px;
+
+    border:
+        1px solid #dbe2ea;
+
+}
+
+
+.form-control:focus,
+.form-select:focus {
+
+    border-color:
+        var(--primary);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37,99,235,0.10);
+
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table {
+
+    margin-bottom: 0;
+
+}
+
+
+.table thead th {
+
+    background:
+        #f8fafc;
+
+    color:
+        #475569;
+
+    font-size:
+        0.85rem;
+
+    border: none;
+
+}
+
+
+.table tbody td {
+
+    padding:
+        14px 10px;
+
+    vertical-align:
+        middle;
+
+}
+
+
+.table-container {
+
+    overflow-x: auto;
+
+}
+
+
+.history-table {
+
+    white-space:
+        nowrap;
+
+}
+
+
+.status-paid {
+
+    color:
+        var(--success);
+
+    font-weight:
+        700;
+
+}
+
+
+.status-unpaid {
+
+    color:
+        var(--danger);
+
+    font-weight:
+        700;
+
+}
+
+
+/* =====================================================
+   EXPENSE
+===================================================== */
+
+.expense-table td {
+
+    vertical-align:
+        middle;
+
+}
+
+
+.delete-btn {
+
+    border-radius:
+        9px;
+
+}
+
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.empty-box {
+
+    padding:
+        45px 20px;
+
+    text-align:
+        center;
+
+    color:
+        var(--muted);
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+.login-alert {
+
+    border-radius:
+        14px;
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.footer {
+
+    text-align:
+        center;
+
+    color:
+        var(--muted);
+
+    font-size:
+        0.85rem;
+
+    padding:
+        20px;
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:768px) {
+
+    body {
+
+        padding:
+            12px;
+
+    }
+
+
+    .admin-header {
+
+        padding:
+            20px;
+
+        border-radius:
+            18px;
+
+    }
+
+
+    .admin-title {
+
+        font-size:
+            1.4rem;
+
+    }
+
+
+    .stat-number {
+
+        font-size:
+            1.5rem;
+
+    }
+
+
+    .locker-card {
+
+        padding:
+            20px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container-fluid px-lg-4">
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<div class="admin-header">
+
+<div class="d-flex
+            justify-content-between
+            align-items-center
+            flex-wrap
+            gap-3">
+
+
+<div class="d-flex
+            align-items-center
+            gap-3">
+
+<div class="admin-logo">
+
+🔐
+
+</div>
+
+<div>
+
+<div class="admin-title">
+
+SmartBox Admin
+
+</div>
+
+<div class="admin-subtitle">
+
+ระบบจัดการตู้ล็อกเกอร์อัจฉริยะ
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="d-flex
+            gap-2">
+
+<button
+id="refreshBtn"
+class="btn btn-light"
+>
+
+🔄 รีเฟรช
+
+</button>
+
+
+<button
+id="logoutBtn"
+class="btn btn-danger"
+>
+
+🚪 ออกจากระบบ
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     LOGIN STATUS
+===================================================== -->
+
+<div
+id="loginStatus"
+class="alert alert-info login-alert"
+>
+
+🔄 กำลังตรวจสอบการเข้าสู่ระบบ...
+
+</div>
+
+
+
+<!-- =====================================================
+     QUICK STATS
+===================================================== -->
+
+<div class="section-title">
+
+<span>📊</span>
+
+ภาพรวมระบบ
+
+</div>
+
+
+<div class="row g-3 mb-4">
+
+
+<div class="col-6 col-lg-3">
+
+<div class="card stat-card">
+
+<div class="stat-icon icon-blue">
+
+🚪
+
+</div>
+
+<div class="stat-title">
+
+ตู้ทั้งหมด
+
+</div>
+
+<div
+id="totalLockers"
+class="stat-number text-primary"
+>
+
+3
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="col-6 col-lg-3">
+
+<div class="card stat-card">
+
+<div class="stat-icon icon-green">
+
+🟢
+
+</div>
+
+<div class="stat-title">
+
+ตู้ว่าง
+
+</div>
+
+<div
+id="vacantLockers"
+class="stat-number text-success"
+>
+
+0
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="col-6 col-lg-3">
+
+<div class="card stat-card">
+
+<div class="stat-icon icon-red">
+
+🔴
+
+</div>
+
+<div class="stat-title">
+
+กำลังใช้งาน
+
+</div>
+
+<div
+id="occupiedLockers"
+class="stat-number text-danger"
+>
+
+0
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="col-6 col-lg-3">
+
+<div class="card stat-card">
+
+<div class="stat-icon icon-orange">
+
+💰
+
+</div>
+
+<div class="stat-title">
+
+ค่าบริการ
+
+</div>
+
+<div class="stat-number">
+
+10 บาท
+
+</div>
+
+<div class="small text-muted">
+
+ต่อชั่วโมง
+
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     LOCKER STATUS
+===================================================== -->
+
+<div class="section-title">
+
+<span>🚪</span>
+
+สถานะตู้ล็อกเกอร์
+
+</div>
+
+
+<div
+id="lockerContainer"
+class="row g-4 mb-5"
+>
+
+</div>
+
+
+
+<!-- =====================================================
+     FINANCE
+===================================================== -->
+
+<div class="section-title">
+
+<span>💰</span>
+
+Dashboard การเงิน
+
+</div>
+
+
+<div class="row g-3 mb-5">
+
+
+<div class="col-6 col-lg-3">
+
+<div class="card stat-card">
+
+<div class="stat-icon icon-green">
+
+💵
+
+</div>
+
+<div class="stat-title">
+
+รายได้วันนี้
+
+</div>
+
+<div
+id="todayRevenue"
+class="stat-number text-success"
+>
+
+0 บาท
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="col-6 col-lg-3">
+
+<div class="card stat-card">
+
+<div class="stat-icon icon-green">
+
+📈
+
+</div>
+
+<div class="stat-title">
+
+รายได้เดือนนี้
+
+</div>
+
+<div
+id="monthlyRevenue"
+class="stat-number text-success"
+>
+
+0 บาท
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="col-6 col-lg-3">
+
+<div class="card stat-card">
+
+<div class="stat-icon icon-orange">
+
+🧾
+
+</div>
+
+<div class="stat-title">
+
+ค่าใช้จ่ายเดือนนี้
+
+</div>
+
+<div
+id="monthlyExpense"
+class="stat-number"
+style="color:#f97316"
+>
+
+0 บาท
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="col-6 col-lg-3">
+
+<div class="card stat-card">
+
+<div class="stat-icon icon-blue">
+
+💎
+
+</div>
+
+<div class="stat-title">
+
+กำไร / ขาดทุน
+
+</div>
+
+<div
+id="monthlyProfit"
+class="stat-number"
+>
+
+0 บาท
+
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     REVENUE PER LOCKER
+===================================================== -->
+
+<div class="section-title">
+
+<span>💰</span>
+
+รายได้แยกตามตู้
+
+</div>
+
+
+<div
+id="lockerRevenueContainer"
+class="row g-4 mb-5"
+>
+
+</div>
+
+
+
+<!-- =====================================================
+     TOP LOCKER
+===================================================== -->
+
+<div class="section-title">
+
+<span>🏆</span>
+
+ตู้ที่ทำรายได้สูงสุด
+
+</div>
+
+
+<div
+id="topLockerContainer"
+class="card top-locker p-4 mb-5"
+>
+
+</div>
+
+
+
+<!-- =====================================================
+     EXPENSE
+===================================================== -->
+
+<div class="section-title">
+
+<span>🧾</span>
+
+จัดการค่าใช้จ่าย
+
+</div>
+
+
+<div class="card p-4 mb-4">
+
+
+<div class="row g-3">
+
+
+<div class="col-md-4">
+
+<label class="form-label fw-bold">
+
+รายการ
+
+</label>
+
+<input
+type="text"
+id="expenseName"
+class="form-control"
+placeholder="เช่น ค่าไฟ"
+>
+
+</div>
+
+
+<div class="col-md-3">
+
+<label class="form-label fw-bold">
+
+จำนวนเงิน
+
+</label>
+
+<input
+type="number"
+id="expenseAmount"
+class="form-control"
+placeholder="0"
+min="1"
+>
+
+</div>
+
+
+<div class="col-md-3">
+
+<label class="form-label fw-bold">
+
+วันที่
+
+</label>
+
+<input
+type="date"
+id="expenseDate"
+class="form-control"
+>
+
+</div>
+
+
+<div class="col-md-2 d-flex align-items-end">
+
+<button
+id="addExpenseBtn"
+class="btn btn-primary w-100"
+>
+
+➕ เพิ่ม
+
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     EXPENSE LIST
+===================================================== -->
+
+<div class="card p-4 mb-5">
+
+
+<div class="d-flex
+            justify-content-between
+            align-items-center
+            mb-3">
+
+<h5 class="fw-bold mb-0">
+
+📋 รายการค่าใช้จ่าย
+
+</h5>
+
+<span
+id="expenseCount"
+class="badge bg-secondary"
+>
+
+0 รายการ
+
+</span>
+
+</div>
+
+
+<div
+id="expenseList"
+class="table-responsive"
+>
+
+<div class="empty-box">
+
+ยังไม่มีรายการค่าใช้จ่าย
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     HISTORY
+===================================================== -->
+
+<div class="section-title">
+
+<span>📋</span>
+
+ประวัติการใช้งานตู้
+
+</div>
+
+
+
+<!-- SUMMARY -->
+
+<div class="row g-3 mb-4">
+
+
+<div class="col-md-4">
+
+<div class="card stat-card">
+
+<div class="stat-title">
+
+จำนวนรายการทั้งหมด
+
+</div>
+
+<div
+id="totalTransactions"
+class="stat-number text-primary"
+>
+
+0
+
+</div>
+
+<div class="small text-muted">
+
+รายการ
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="col-md-4">
+
+<div class="card stat-card">
+
+<div class="stat-title">
+
+รายได้จากประวัติทั้งหมด
+
+</div>
+
+<div
+id="totalTransactionRevenue"
+class="stat-number text-success"
+>
+
+0 บาท
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="col-md-4">
+
+<div class="card stat-card">
+
+<div class="stat-title">
+
+เวลาใช้งานรวม
+
+</div>
+
+<div
+id="totalDuration"
+class="stat-number text-warning"
+>
+
+0 ชั่วโมง
+
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     FILTER
+===================================================== -->
+
+<div class="card filter-card p-4 mb-4">
+
+
+<h5 class="fw-bold mb-3">
+
+🔎 ค้นหา / กรองประวัติ
+
+</h5>
+
+
+<div class="row g-3">
+
+
+<div class="col-md-4">
+
+<label class="form-label">
+
+ค้นหาเลขตู้
+
+</label>
+
+<input
+type="text"
+id="searchInput"
+class="form-control"
+placeholder="เช่น 01"
+>
+
+</div>
+
+
+<div class="col-md-3">
+
+<label class="form-label">
+
+เลือกตู้
+
+</label>
+
+<select
+id="lockerFilter"
+class="form-select"
+>
+
+<option value="all">
+
+ทุกตู้
+
+</option>
+
+<option value="01">
+
+🚪 ตู้ #01
+
+</option>
+
+<option value="02">
+
+🚪 ตู้ #02
+
+</option>
+
+<option value="03">
+
+🚪 ตู้ #03
+
+</option>
+
+</select>
+
+</div>
+
+
+<div class="col-md-3">
+
+<label class="form-label">
+
+เรียงข้อมูล
+
+</label>
+
+<select
+id="sortFilter"
+class="form-select"
+>
+
+<option value="newest">
+
+ล่าสุดก่อน
+
+</option>
+
+<option value="oldest">
+
+เก่าสุดก่อน
+
+</option>
+
+<option value="highest">
+
+ค่าบริการสูงสุด
+
+</option>
+
+<option value="lowest">
+
+ค่าบริการต่ำสุด
+
+</option>
+
+</select>
+
+</div>
+
+
+<div class="col-md-2 d-flex align-items-end">
+
+<button
+id="clearFilterBtn"
+class="btn btn-secondary w-100"
+>
+
+🧹 ล้าง
+
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     HISTORY TABLE
+===================================================== -->
+
+<div class="card p-4 mb-5">
+
+
+<div class="d-flex
+            justify-content-between
+            align-items-center
+            mb-3">
+
+<h5 class="fw-bold mb-0">
+
+📊 รายการใช้งาน
+
+</h5>
+
+<span
+id="showingText"
+class="text-muted"
+>
+
+0 รายการ
+
+</span>
+
+</div>
+
+
+<div class="table-container">
+
+
+<table
+class="table table-hover align-middle history-table"
+>
+
+<thead>
+
+<tr>
+
+<th>#</th>
+
+<th>ตู้</th>
+
+<th>เวลาเริ่มฝาก</th>
+
+<th>เวลารับของคืน</th>
+
+<th>ระยะเวลา</th>
+
+<th>ค่าบริการ</th>
+
+<th>สถานะ</th>
+
+</tr>
+
+</thead>
+
+
+<tbody
+id="historyTable"
+>
+
+</tbody>
+
+</table>
+
+
+</div>
+
+
+<div
+id="emptyBox"
+class="empty-box d-none"
+>
+
+<div class="fs-1">
+
+📭
+
+</div>
+
+<h5>
+
+ยังไม่มีประวัติการใช้งาน
+
+</h5>
+
+</div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<div class="footer">
+
+SmartBox Station © 2026
+
+<br>
+
+ระบบจัดการตู้ล็อกเกอร์อัจฉริยะ
+
+</div>
+
+
+</div>
+
+
+
+<script type="module">
+
+
+/* =====================================================
+   FIREBASE IMPORT
+===================================================== */
+
+import {
+
+initializeApp
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+
+import {
+
+getAuth,
+onAuthStateChanged,
+signOut
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyARnzW3_ECpYOsKpKeP_KT90kgJImvGzOg",
+
+authDomain:
+"smartboxx-2b81e.firebaseapp.com",
+
+databaseURL:
+"https://smartboxx-2b81e-default-rtdb.firebaseio.com",
+
+projectId:
+"smartboxx-2b81e",
+
+storageBucket:
+"smartboxx-2b81e.firebasestorage.app",
+
+messagingSenderId:
+"1000015980584",
+
+appId:
+"1:1000015980584:web:0dc78a8319a4272d15ed1d",
+
+measurementId:
+"G-3KC8NRT65H"
+
+};
+
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+
+
+/* =====================================================
+   FIREBASE URL
+===================================================== */
+
+const FIREBASE_ROOT =
+"https://smartboxx-2b81e-default-rtdb.firebaseio.com";
+
+const LOCKERS_URL =
+`${FIREBASE_ROOT}/lockers.json`;
+
+const FINANCE_URL =
+`${FIREBASE_ROOT}/finance.json`;
+
+const EXPENSES_URL =
+`${FIREBASE_ROOT}/expenses.json`;
+
+const TRANSACTIONS_URL =
+`${FIREBASE_ROOT}/transactions.json`;
+
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+let lockersData = {};
+
+let financeData = {
+
+    today_revenue: 0,
+
+    monthly_revenue: 0
+
+};
+
+let expensesData = {};
+
+let transactions = [];
+
+
+
+/* =====================================================
+   DOM
+===================================================== */
+
+const loginStatus =
+document.getElementById("loginStatus");
+
+const refreshBtn =
+document.getElementById("refreshBtn");
+
+const logoutBtn =
+document.getElementById("logoutBtn");
+
+const addExpenseBtn =
+document.getElementById("addExpenseBtn");
+
+
+
+/* =====================================================
+   AUTH
+===================================================== */
+
+onAuthStateChanged(
+
+auth,
+
+async (user) => {
+
+
+if(!user) {
+
+    loginStatus.className =
+        "alert alert-danger login-alert";
+
+    loginStatus.innerText =
+        "❌ ยังไม่ได้เข้าสู่ระบบ";
+
+    setTimeout(() => {
+
+        window.location.href =
+            "admin-login.html";
+
+    },500);
+
+    return;
+
+}
+
+
+loginStatus.className =
+    "alert alert-success login-alert";
+
+loginStatus.innerHTML =
+
+`✅ เข้าสู่ระบบแล้ว
+<br>
+<small>
+${escapeHtml(user.email || "")}
+</small>`;
+
+
+await loadData();
+
+}
+
+);
+
+
+
+/* =====================================================
+   LOAD DATA
+===================================================== */
+
+async function loadData() {
+
+
+try {
+
+
+refreshBtn.disabled = true;
+
+refreshBtn.innerText =
+    "⏳ กำลังโหลด...";
+
+
+
+/* LOCKERS */
+
+const lockerResponse =
+    await fetch(LOCKERS_URL);
+
+if(!lockerResponse.ok) {
+
+    throw new Error(
+        "ไม่สามารถโหลดข้อมูลตู้ได้"
+    );
+
+}
+
+lockersData =
+    await lockerResponse.json() || {};
+
+
+
+/* FINANCE */
+
+const financeResponse =
+    await fetch(FINANCE_URL);
+
+if(financeResponse.ok) {
+
+    financeData =
+        await financeResponse.json() || {};
+
+}
+
+
+
+/* EXPENSE */
+
+const expenseResponse =
+    await fetch(EXPENSES_URL);
+
+if(expenseResponse.ok) {
+
+    expensesData =
+        await expenseResponse.json() || {};
+
+}
+else {
+
+    expensesData = {};
+
+}
+
+
+
+/* TRANSACTIONS */
+
+const transactionResponse =
+    await fetch(TRANSACTIONS_URL);
+
+if(transactionResponse.ok) {
+
+
+const data =
+    await transactionResponse.json() || {};
+
+transactions = [];
+
+
+Object.entries(data).forEach(
+([key,value]) => {
+
+    if(value) {
+
+        transactions.push({
+
+            id:key,
+
+            ...value
+
+        });
+
+    }
+
+});
+
+}
+else {
+
+    transactions = [];
+
+}
+
+
+
+/* UPDATE */
+
+updateLockerDashboard();
+
+updateLockerCards();
+
+updateFinance();
+
+updateLockerRevenue();
+
+updateTopLocker();
+
+updateExpenseList();
+
+updateHistorySummary();
+
+renderHistoryTable();
+
+
+}
+
+catch(error) {
+
+
+console.error(error);
+
+loginStatus.className =
+    "alert alert-warning login-alert";
+
+loginStatus.innerText =
+    "⚠️ โหลดข้อมูลไม่สำเร็จ: " +
+    error.message;
+
+}
+
+
+finally {
+
+refreshBtn.disabled = false;
+
+refreshBtn.innerText =
+    "🔄 รีเฟรช";
+
+}
+
+}
+
+
+
+/* =====================================================
+   LOCKER DASHBOARD
+===================================================== */
+
+function updateLockerDashboard() {
+
+
+let vacant = 0;
+
+let occupied = 0;
+
+
+for(let i=1;i<=3;i++) {
+
+
+const id =
+    String(i).padStart(2,"0");
+
+const locker =
+    lockersData[id];
+
+
+if(!locker) {
+
+    continue;
+
+}
+
+
+if(locker.status === "vacant") {
+
+    vacant++;
+
+}
+
+if(locker.status === "occupied") {
+
+    occupied++;
+
+}
+
+}
+
+
+document.getElementById(
+    "totalLockers"
+).innerText = "3";
+
+document.getElementById(
+    "vacantLockers"
+).innerText = vacant;
+
+document.getElementById(
+    "occupiedLockers"
+).innerText = occupied;
+
+}
+
+
+
+/* =====================================================
+   LOCKER CARDS
+===================================================== */
+
+function updateLockerCards() {
+
+
+const container =
+    document.getElementById(
+        "lockerContainer"
+    );
+
+container.innerHTML = "";
+
+
+for(let i=1;i<=3;i++) {
+
+
+const id =
+    String(i).padStart(2,"0");
+
+const locker =
+    lockersData[id] || {};
+
+const occupied =
+    locker.status === "occupied";
+
+
+let duration = "-";
+
+let price = 0;
+
+
+if(
+    occupied &&
+    locker.start_time
+) {
+
+
+const start =
+    new Date(locker.start_time);
+
+const now =
+    new Date();
+
+const minutes =
+    Math.max(
+        0,
+        Math.floor(
+            (now - start) / 60000
+        )
+    );
+
+
+const hours =
+    Math.floor(minutes / 60);
+
+const mins =
+    minutes % 60;
+
+
+duration =
+    `${hours} ชั่วโมง ${mins} นาที`;
+
+
+const chargeHours =
+    Math.max(
+        1,
+        Math.ceil(minutes / 60)
+    );
+
+
+price =
+    chargeHours * 10;
+
+}
+
+
+
+container.innerHTML += `
+
+<div class="col-lg-4">
+
+<div class="card locker-card">
+
+<div class="d-flex
+            justify-content-between
+            align-items-center">
+
+<div class="locker-number">
+
+🚪 ตู้ #${id}
+
+</div>
+
+${
+occupied
+
+?
+
+`<span class="locker-status status-busy">
+🔴 ไม่ว่าง
+</span>`
+
+:
+
+`<span class="locker-status status-free">
+🟢 ว่าง
+</span>`
+
+}
+
+</div>
+
+
+<div class="locker-info">
+
+
+${
+occupied
+
+?
+
+`
+
+<div class="info-label">
+
+เวลาเริ่มฝาก
+
+</div>
+
+<div class="info-value">
+
+${formatDateTime(
+    locker.start_time
+)}
+
+</div>
+
+
+<div class="info-label">
+
+ระยะเวลาที่ใช้งาน
+
+</div>
+
+<div class="info-value">
+
+${duration}
+
+</div>
+
+
+<div class="info-label">
+
+ค่าบริการปัจจุบัน
+
+</div>
+
+<div class="current-price">
+
+${price.toLocaleString()} บาท
+
+</div>
+
+<div class="service-price">
+
+10 บาท / ชั่วโมง
+• เศษของชั่วโมงปัดขึ้น
+
+</div>
+
+`
+
+:
+
+`
+
+<div class="text-center py-4">
+
+<div class="fs-1 mb-2">
+
+🟢
+
+</div>
+
+<div class="fw-bold text-success">
+
+สามารถฝากของได้
+
+</div>
+
+<div class="small text-muted">
+
+ตู้พร้อมให้บริการ
+
+</div>
+
+</div>
+
+`
+
+}
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+}
+
+
+
+/* =====================================================
+   FINANCE
+===================================================== */
+
+function updateFinance() {
+
+
+const today =
+    Number(
+        financeData.today_revenue
+    ) || 0;
+
+
+const monthly =
+    Number(
+        financeData.monthly_revenue
+    ) || 0;
+
+
+const now =
+    new Date();
+
+const year =
+    now.getFullYear();
+
+const month =
+    now.getMonth()+1;
+
+
+let expenseTotal = 0;
+
+
+Object.values(
+    expensesData || {}
+).forEach(
+expense => {
+
+
+if(!expense) return;
+
+
+const amount =
+    Number(expense.amount) || 0;
+
+
+const parts =
+    String(
+        expense.date || ""
+    ).split("-");
+
+
+if(parts.length !== 3)
+    return;
+
+
+if(
+    Number(parts[0]) === year &&
+    Number(parts[1]) === month
+) {
+
+    expenseTotal += amount;
+
+}
+
+});
+
+
+const profit =
+    monthly - expenseTotal;
+
+
+document.getElementById(
+    "todayRevenue"
+).innerText =
+    `${today.toLocaleString()} บาท`;
+
+
+document.getElementById(
+    "monthlyRevenue"
+).innerText =
+    `${monthly.toLocaleString()} บาท`;
+
+
+document.getElementById(
+    "monthlyExpense"
+).innerText =
+    `${expenseTotal.toLocaleString()} บาท`;
+
+
+const profitElement =
+    document.getElementById(
+        "monthlyProfit"
+    );
+
+
+profitElement.innerText =
+    `${profit.toLocaleString()} บาท`;
+
+
+profitElement.className =
+    profit >= 0
+    ? "stat-number text-success"
+    : "stat-number text-danger";
+
+}
+
+
+
+/* =====================================================
+   REVENUE PER LOCKER
+===================================================== */
+
+function getLockerRevenue() {
+
+
+const revenue = {
+
+    "01":0,
+
+    "02":0,
+
+    "03":0
+
+};
+
+
+transactions.forEach(
+item => {
+
+
+const id =
+    String(
+        item.locker_id || ""
+    ).padStart(2,"0");
+
+
+const price =
+    Number(item.price) || 0;
+
+
+if(
+    Object.prototype.hasOwnProperty
+    .call(revenue,id)
+) {
+
+    revenue[id] += price;
+
+}
+
+});
+
+
+return revenue;
+
+}
+
+
+
+/* =====================================================
+   SHOW REVENUE
+===================================================== */
+
+function updateLockerRevenue() {
+
+
+const container =
+    document.getElementById(
+        "lockerRevenueContainer"
+    );
+
+const revenue =
+    getLockerRevenue();
+
+
+container.innerHTML = "";
+
+
+["01","02","03"].forEach(
+id => {
+
+
+container.innerHTML += `
+
+<div class="col-md-4">
+
+<div class="card revenue-card">
+
+<div class="revenue-icon">
+
+🚪
+
+</div>
+
+<div class="revenue-locker">
+
+ตู้ #${id}
+
+</div>
+
+<div class="text-muted mt-2">
+
+รายได้สะสม
+
+</div>
+
+<div class="revenue-value">
+
+${revenue[id].toLocaleString()} บาท
+
+</div>
+
+<div class="small text-muted">
+
+จากประวัติการใช้งาน
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+
+/* =====================================================
+   TOP LOCKER
+===================================================== */
+
+function updateTopLocker() {
+
+
+const container =
+    document.getElementById(
+        "topLockerContainer"
+    );
+
+const revenue =
+    getLockerRevenue();
+
+
+const ranking =
+    Object.entries(revenue)
+    .sort(
+        (a,b) => b[1]-a[1]
+    );
+
+
+const top =
+    ranking[0];
+
+
+if(!top || top[1] <= 0) {
+
+
+container.innerHTML = `
+
+<div class="empty-box">
+
+<div class="fs-1">
+
+🏆
+
+</div>
+
+<h5>
+
+ยังไม่มีข้อมูลรายได้
+
+</h5>
+
+<div>
+
+เมื่อมีการใช้งานตู้
+ระบบจะแสดงตู้ที่ทำรายได้สูงสุด
+
+</div>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+const count =
+    transactions.filter(
+        item =>
+        String(
+            item.locker_id
+        ).padStart(2,"0")
+        === top[0]
+    ).length;
+
+
+container.innerHTML = `
+
+<div class="row align-items-center">
+
+
+<div class="col-md-4 text-center">
+
+<div class="rank-number">
+
+🏆 ตู้ #${top[0]}
+
+</div>
+
+<div class="text-muted">
+
+ทำรายได้สูงสุด
+
+</div>
+
+</div>
+
+
+<div class="col-md-4 text-center">
+
+<div class="text-muted">
+
+รายได้
+
+</div>
+
+<div class="stat-number text-success">
+
+${top[1].toLocaleString()} บาท
+
+</div>
+
+</div>
+
+
+<div class="col-md-4 text-center">
+
+<div class="text-muted">
+
+จำนวนการใช้งาน
+
+</div>
+
+<div class="stat-number text-primary">
+
+${count} ครั้ง
+
+</div>
+
+</div>
+
+
+</div>
+
+`;
+
+}
+
+
+
+/* =====================================================
+   ADD EXPENSE
+===================================================== */
+
+addExpenseBtn.addEventListener(
+"click",
+async () => {
+
+
+const name =
+    document.getElementById(
+        "expenseName"
+    ).value.trim();
+
+
+const amount =
+    Number(
+        document.getElementById(
+            "expenseAmount"
+        ).value
+    );
+
+
+const date =
+    document.getElementById(
+        "expenseDate"
+    ).value;
+
+
+if(!name) {
+
+    alert(
+        "กรุณากรอกรายการค่าใช้จ่าย"
+    );
+
+    return;
+
+}
+
+
+if(!amount || amount <= 0) {
+
+    alert(
+        "กรุณากรอกจำนวนเงิน"
+    );
+
+    return;
+
+}
+
+
+if(!date) {
+
+    alert(
+        "กรุณาเลือกวันที่"
+    );
+
+    return;
+
+}
+
+
+try {
+
+
+addExpenseBtn.disabled =
+    true;
+
+addExpenseBtn.innerText =
+    "⏳ กำลังบันทึก...";
+
+
+const expense = {
+
+    name:name,
+
+    amount:amount,
+
+    date:date,
+
+    created_at:
+        new Date().toISOString()
+
+};
+
+
+const response =
+    await fetch(
+        EXPENSES_URL,
+        {
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":
+                "application/json"
+            },
+
+            body:
+                JSON.stringify(
+                    expense
+                )
+
+        }
+    );
+
+
+if(!response.ok) {
+
+    throw new Error(
+        "บันทึกค่าใช้จ่ายไม่สำเร็จ"
+    );
+
+}
+
+
+document.getElementById(
+    "expenseName"
+).value = "";
+
+
+document.getElementById(
+    "expenseAmount"
+).value = "";
+
+
+await loadData();
+
+
+alert(
+    "✅ เพิ่มค่าใช้จ่ายเรียบร้อย"
+);
+
+
+}
+catch(error) {
+
+
+console.error(error);
+
+alert(
+    "❌ เกิดข้อผิดพลาด\n\n" +
+    error.message
+);
+
+}
+finally {
+
+
+addExpenseBtn.disabled =
+    false;
+
+addExpenseBtn.innerText =
+    "➕ เพิ่ม";
+
+}
+
+}
+);
+
+
+
+/* =====================================================
+   DELETE EXPENSE
+===================================================== */
+
+async function deleteExpense(key) {
+
+
+const expense =
+    expensesData[key];
+
+
+if(!expense) {
+
+    alert(
+        "ไม่พบรายการค่าใช้จ่าย"
+    );
+
+    return;
+
+}
+
+
+const confirmDelete =
+    confirm(
+
+`ต้องการลบรายการนี้หรือไม่?
+
+รายการ: ${expense.name || "-"}
+จำนวนเงิน: ${
+    Number(expense.amount || 0)
+    .toLocaleString()
+} บาท
+
+การลบไม่สามารถย้อนกลับได้`
+
+    );
+
+
+if(!confirmDelete) {
+
+    return;
+
+}
+
+
+try {
+
+
+const deleteUrl =
+    `${FIREBASE_ROOT}/expenses/${encodeURIComponent(key)}.json`;
+
+
+const response =
+    await fetch(
+        deleteUrl,
+        {
+            method:"DELETE"
+        }
+    );
+
+
+if(!response.ok) {
+
+    const errorText =
+        await response.text();
+
+    throw new Error(
+        `ลบไม่สำเร็จ (${response.status}) ${errorText}`
+    );
+
+}
+
+
+delete expensesData[key];
+
+
+updateExpenseList();
+
+updateFinance();
+
+
+alert(
+    "✅ ลบรายการเรียบร้อย"
+);
+
+
+}
+catch(error) {
+
+
+console.error(
+    "Delete Expense Error:",
+    error
+);
+
+
+alert(
+    "❌ ไม่สามารถลบรายการได้\n\n" +
+    error.message
+);
+
+}
+
+}
+
+
+
+/* =====================================================
+   EXPENSE LIST
+===================================================== */
+
+function updateExpenseList() {
+
+
+const container =
+    document.getElementById(
+        "expenseList"
+    );
+
+
+const countElement =
+    document.getElementById(
+        "expenseCount"
+    );
+
+
+const items =
+    Object.entries(
+        expensesData || {}
+    );
+
+
+countElement.innerText =
+    `${items.length} รายการ`;
+
+
+if(items.length === 0) {
+
+
+container.innerHTML = `
+
+<div class="empty-box">
+
+<div class="fs-1">
+
+🧾
+
+</div>
+
+ยังไม่มีรายการค่าใช้จ่าย
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+items.sort(
+(a,b) => {
+
+
+const dateA =
+    new Date(
+        b[1].created_at ||
+        b[1].date ||
+        0
+    );
+
+
+const dateB =
+    new Date(
+        a[1].created_at ||
+        a[1].date ||
+        0
+    );
+
+
+return dateA-dateB;
+
+});
+
+
+let html = `
+
+<table class="table table-hover expense-table">
+
+<thead>
+
+<tr>
+
+<th>รายการ</th>
+
+<th>จำนวนเงิน</th>
+
+<th>วันที่</th>
+
+<th class="text-center">
+
+จัดการ
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+`;
+
+
+items.forEach(
+([key,item]) => {
+
+
+html += `
+
+<tr>
+
+<td class="fw-bold">
+
+${escapeHtml(
+    item.name || "-"
+)}
+
+</td>
+
+
+<td>
+
+<strong>
+
+${
+    (
+        Number(item.amount) || 0
+    ).toLocaleString()
+}
+
+บาท
+
+</strong>
+
+</td>
+
+
+<td>
+
+${escapeHtml(
+    item.date || "-"
+)}
+
+</td>
+
+
+<td class="text-center">
+
+<button
+class="btn btn-outline-danger btn-sm delete-btn"
+data-key="${escapeHtml(key)}"
+>
+
+🗑️ ลบ
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+html += `
+
+</tbody>
+
+</table>
+
+`;
+
+
+container.innerHTML =
+    html;
+
+
+/* ==========================================
+   DELETE BUTTON EVENTS
+========================================== */
+
+container
+.querySelectorAll(
+    ".delete-btn"
+)
+.forEach(
+button => {
+
+
+button.addEventListener(
+    "click",
+    () => {
+
+        const key =
+            button.dataset.key;
+
+        deleteExpense(key);
+
+    }
+);
+
+});
+
+}
+
+
+
+/* =====================================================
+   HISTORY SUMMARY
+===================================================== */
+
+function updateHistorySummary() {
+
+
+let revenue = 0;
+
+let minutes = 0;
+
+
+transactions.forEach(
+item => {
+
+
+revenue +=
+    Number(item.price) || 0;
+
+
+minutes +=
+    Number(
+        item.duration_minutes
+    ) || 0;
+
+});
+
+
+const hours =
+    Math.floor(
+        minutes / 60
+    );
+
+
+const mins =
+    minutes % 60;
+
+
+document.getElementById(
+    "totalTransactions"
+).innerText =
+    transactions.length;
+
+
+document.getElementById(
+    "totalTransactionRevenue"
+).innerText =
+    `${revenue.toLocaleString()} บาท`;
+
+
+document.getElementById(
+    "totalDuration"
+).innerText =
+    `${hours} ชม. ${mins} นาที`;
+
+}
+
+
+
+/* =====================================================
+   FILTER
+===================================================== */
+
+function getFilteredTransactions() {
+
+
+let result =
+    [...transactions];
+
+
+const search =
+    document.getElementById(
+        "searchInput"
+    ).value
+    .trim()
+    .toLowerCase();
+
+
+const locker =
+    document.getElementById(
+        "lockerFilter"
+    ).value;
+
+
+const sort =
+    document.getElementById(
+        "sortFilter"
+    ).value;
+
+
+if(search) {
+
+
+result =
+    result.filter(
+        item => {
+
+
+            const id =
+                String(
+                    item.locker_id || ""
+                ).toLowerCase();
+
+
+            return id.includes(search);
+
+        }
+    );
+
+}
+
+
+if(locker !== "all") {
+
+
+result =
+    result.filter(
+        item =>
+
+        String(
+            item.locker_id
+        ).padStart(2,"0")
+        === locker
+    );
+
+}
+
+
+if(sort === "newest") {
+
+
+result.sort(
+    (a,b) =>
+
+    new Date(
+        b.end_time ||
+        b.start_time
+    )
+
+    -
+
+    new Date(
+        a.end_time ||
+        a.start_time
+    )
+);
+
+}
+
+
+if(sort === "oldest") {
+
+
+result.sort(
+    (a,b) =>
+
+    new Date(
+        a.end_time ||
+        a.start_time
+    )
+
+    -
+
+    new Date(
+        b.end_time ||
+        b.start_time
+    )
+);
+
+}
+
+
+if(sort === "highest") {
+
+
+result.sort(
+    (a,b) =>
+
+    (Number(b.price)||0)
+    -
+    (Number(a.price)||0)
+);
+
+}
+
+
+if(sort === "lowest") {
+
+
+result.sort(
+    (a,b) =>
+
+    (Number(a.price)||0)
+    -
+    (Number(b.price)||0)
+);
+
+}
+
+
+return result;
+
+}
+
+
+
+/* =====================================================
+   HISTORY TABLE
+===================================================== */
+
+function renderHistoryTable() {
+
+
+const table =
+    document.getElementById(
+        "historyTable"
+    );
+
+const empty =
+    document.getElementById(
+        "emptyBox"
+    );
+
+
+const result =
+    getFilteredTransactions();
+
+
+table.innerHTML = "";
+
+
+document.getElementById(
+    "showingText"
+).innerText =
+    `${result.length} รายการ`;
+
+
+if(result.length === 0) {
+
+
+empty.classList.remove(
+    "d-none"
+);
+
+return;
+
+}
+
+
+empty.classList.add(
+    "d-none"
+);
+
+
+result.forEach(
+(item,index) => {
+
+
+const lockerId =
+    String(
+        item.locker_id || "-"
+    ).padStart(2,"0");
+
+
+const start =
+    item.start_time
+    ? formatDateTime(
+        item.start_time
+      )
+    : "-";
+
+
+const end =
+    item.end_time
+    ? formatDateTime(
+        item.end_time
+      )
+    : "-";
+
+
+const duration =
+    formatDuration(
+        Number(
+            item.duration_minutes
+        ) || 0
+    );
+
+
+const price =
+    Number(
+        item.price
+    ) || 0;
+
+
+const status =
+    item.payment_status === "paid"
+
+    ?
+
+    `<span class="status-paid">
+        🟢 ชำระแล้ว
+     </span>`
+
+    :
+
+    `<span class="status-unpaid">
+        🟡 ยังไม่ชำระ
+     </span>`;
+
+
+table.innerHTML += `
+
+<tr>
+
+<td>
+
+${index+1}
+
+</td>
+
+<td>
+
+<strong>
+
+🚪 #${lockerId}
+
+</strong>
+
+</td>
+
+<td>
+
+${start}
+
+</td>
+
+<td>
+
+${end}
+
+</td>
+
+<td>
+
+${duration}
+
+</td>
+
+<td>
+
+<strong>
+
+${price.toLocaleString()} บาท
+
+</strong>
+
+</td>
+
+<td>
+
+${status}
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+
+/* =====================================================
+   FORMAT DATE
+===================================================== */
+
+function formatDateTime(value) {
+
+
+if(!value) {
+
+    return "-";
+
+}
+
+
+const date =
+    new Date(value);
+
+
+if(
+    isNaN(
+        date.getTime()
+    )
+) {
+
+    return "-";
+
+}
+
+
+return date.toLocaleString(
+    "th-TH",
+    {
+
+        timeZone:
+            "Asia/Bangkok",
+
+        year:
+            "numeric",
+
+        month:
+            "2-digit",
+
+        day:
+            "2-digit",
+
+        hour:
+            "2-digit",
+
+        minute:
+            "2-digit",
+
+        second:
+            "2-digit"
+
+    }
+);
+
+}
+
+
+
+/* =====================================================
+   FORMAT DURATION
+===================================================== */
+
+function formatDuration(minutes) {
+
+
+if(minutes <= 0) {
+
+    return "0 นาที";
+
+}
+
+
+const hours =
+    Math.floor(
+        minutes / 60
+    );
+
+
+const mins =
+    minutes % 60;
+
+
+if(hours === 0) {
+
+    return `${mins} นาที`;
+
+}
+
+
+return `${hours} ชม. ${mins} นาที`;
+
+}
+
+
+
+/* =====================================================
+   CLEAR FILTER
+===================================================== */
+
+function clearFilters() {
+
+
+document.getElementById(
+    "searchInput"
+).value = "";
+
+
+document.getElementById(
+    "lockerFilter"
+).value =
+    "all";
+
+
+document.getElementById(
+    "sortFilter"
+).value =
+    "newest";
+
+
+renderHistoryTable();
+
+}
+
+
+
+/* =====================================================
+   SECURITY
+===================================================== */
+
+function escapeHtml(text) {
+
+
+return String(text)
+
+.replace(
+    /&/g,
+    "&amp;"
+)
+
+.replace(
+    /</g,
+    "&lt;"
+)
+
+.replace(
+    />/g,
+    "&gt;"
+)
+
+.replace(
+    /"/g,
+    "&quot;"
+)
+
+.replace(
+    /'/g,
+    "&#039;"
+);
+
+}
+
+
+
+/* =====================================================
+   EVENTS
+===================================================== */
+
+refreshBtn.addEventListener(
+    "click",
+    loadData
+);
+
+
+logoutBtn.addEventListener(
+    "click",
+    async () => {
+
+
+        const confirmLogout =
+            confirm(
+                "ต้องการออกจากระบบหรือไม่?"
+            );
+
+
+        if(!confirmLogout) {
+
+            return;
+
+        }
+
+
+        try {
+
+
+            await signOut(auth);
+
+            window.location.href =
+                "admin-login.html";
+
+
+        }
+        catch(error) {
+
+
+            console.error(error);
+
+            alert(
+                "ไม่สามารถออกจากระบบได้"
+            );
+
+        }
+
+    }
+);
+
+
+
+document.getElementById(
+    "searchInput"
+)
+.addEventListener(
+    "input",
+    renderHistoryTable
+);
+
+
+document.getElementById(
+    "lockerFilter"
+)
+.addEventListener(
+    "change",
+    renderHistoryTable
+);
+
+
+document.getElementById(
+    "sortFilter"
+)
+.addEventListener(
+    "change",
+    renderHistoryTable
+);
+
+
+document.getElementById(
+    "clearFilterBtn"
+)
+.addEventListener(
+    "click",
+    clearFilters
+);
+
+
+
+/* =====================================================
+   DEFAULT DATE
+===================================================== */
+
+document.getElementById(
+    "expenseDate"
+).value =
+    new Date()
+    .toISOString()
+    .slice(0,10);
+
+
+
+/* =====================================================
+   AUTO REFRESH
+===================================================== */
+
+setInterval(
+    loadData,
+    10000
+);
+
+
+</script>
+
+
+</body>
+
+</html>
