@@ -1108,7 +1108,7 @@ style="color:#f97316"
 
 <div
 id="monthlyProfit"
-class="stat-number"
+class="stat-number text-success"
 >
 
 0 บาท
@@ -1750,9 +1750,6 @@ const FIREBASE_ROOT =
 const LOCKERS_URL =
 `${FIREBASE_ROOT}/lockers.json`;
 
-const FINANCE_URL =
-`${FIREBASE_ROOT}/finance.json`;
-
 const EXPENSES_URL =
 `${FIREBASE_ROOT}/expenses.json`;
 
@@ -1766,14 +1763,6 @@ const TRANSACTIONS_URL =
 ===================================================== */
 
 let lockersData = {};
-
-let financeData = {
-
-    today_revenue: 0,
-
-    monthly_revenue: 0
-
-};
 
 let expensesData = {};
 
@@ -1867,10 +1856,13 @@ refreshBtn.innerText =
 
 
 
-/* LOCKERS */
+/* ==========================================
+   LOCKERS
+========================================== */
 
 const lockerResponse =
     await fetch(LOCKERS_URL);
+
 
 if(!lockerResponse.ok) {
 
@@ -1880,29 +1872,19 @@ if(!lockerResponse.ok) {
 
 }
 
+
 lockersData =
     await lockerResponse.json() || {};
 
 
 
-/* FINANCE */
-
-const financeResponse =
-    await fetch(FINANCE_URL);
-
-if(financeResponse.ok) {
-
-    financeData =
-        await financeResponse.json() || {};
-
-}
-
-
-
-/* EXPENSE */
+/* ==========================================
+   EXPENSES
+========================================== */
 
 const expenseResponse =
     await fetch(EXPENSES_URL);
+
 
 if(expenseResponse.ok) {
 
@@ -1918,10 +1900,13 @@ else {
 
 
 
-/* TRANSACTIONS */
+/* ==========================================
+   TRANSACTIONS
+========================================== */
 
 const transactionResponse =
     await fetch(TRANSACTIONS_URL);
+
 
 if(transactionResponse.ok) {
 
@@ -1929,11 +1914,13 @@ if(transactionResponse.ok) {
 const data =
     await transactionResponse.json() || {};
 
+
 transactions = [];
 
 
 Object.entries(data).forEach(
 ([key,value]) => {
+
 
     if(value) {
 
@@ -1958,7 +1945,9 @@ else {
 
 
 
-/* UPDATE */
+/* ==========================================
+   UPDATE DASHBOARD
+========================================== */
 
 updateLockerDashboard();
 
@@ -1984,17 +1973,20 @@ catch(error) {
 
 console.error(error);
 
+
 loginStatus.className =
     "alert alert-warning login-alert";
+
 
 loginStatus.innerText =
     "⚠️ โหลดข้อมูลไม่สำเร็จ: " +
     error.message;
 
+
 }
 
-
 finally {
+
 
 refreshBtn.disabled = false;
 
@@ -2025,6 +2017,7 @@ for(let i=1;i<=3;i++) {
 const id =
     String(i).padStart(2,"0");
 
+
 const locker =
     lockersData[id];
 
@@ -2042,6 +2035,7 @@ if(locker.status === "vacant") {
 
 }
 
+
 if(locker.status === "occupied") {
 
     occupied++;
@@ -2055,9 +2049,11 @@ document.getElementById(
     "totalLockers"
 ).innerText = "3";
 
+
 document.getElementById(
     "vacantLockers"
 ).innerText = vacant;
+
 
 document.getElementById(
     "occupiedLockers"
@@ -2079,6 +2075,7 @@ const container =
         "lockerContainer"
     );
 
+
 container.innerHTML = "";
 
 
@@ -2088,8 +2085,10 @@ for(let i=1;i<=3;i++) {
 const id =
     String(i).padStart(2,"0");
 
+
 const locker =
     lockersData[id] || {};
+
 
 const occupied =
     locker.status === "occupied";
@@ -2109,8 +2108,10 @@ if(
 const start =
     new Date(locker.start_time);
 
+
 const now =
     new Date();
+
 
 const minutes =
     Math.max(
@@ -2123,6 +2124,7 @@ const minutes =
 
 const hours =
     Math.floor(minutes / 60);
+
 
 const mins =
     minutes % 60;
@@ -2287,47 +2289,159 @@ ${price.toLocaleString()} บาท
 
 /* =====================================================
    FINANCE
+   คำนวณรายได้จาก TRANSACTIONS โดยตรง
 ===================================================== */
 
 function updateFinance() {
 
 
-const today =
-    Number(
-        financeData.today_revenue
-    ) || 0;
-
-
-const monthly =
-    Number(
-        financeData.monthly_revenue
-    ) || 0;
-
-
 const now =
     new Date();
 
-const year =
+
+const currentYear =
     now.getFullYear();
 
-const month =
-    now.getMonth()+1;
 
+const currentMonth =
+    now.getMonth();
+
+
+const currentDate =
+    now.getDate();
+
+
+let todayRevenue = 0;
+
+let monthlyRevenue = 0;
+
+
+
+/* ==========================================
+   TRANSACTIONS
+========================================== */
+
+transactions.forEach(item => {
+
+
+const price =
+    Number(item.price) || 0;
+
+
+if(price <= 0) {
+
+    return;
+
+}
+
+
+/*
+ * ถ้ามี payment_status
+ * ต้องเป็น paid เท่านั้น
+ */
+
+if(
+    item.payment_status &&
+    item.payment_status !== "paid"
+) {
+
+    return;
+
+}
+
+
+/*
+ * ใช้ end_time ก่อน
+ * ถ้าไม่มีใช้ start_time
+ */
+
+const transactionDate =
+    new Date(
+        item.end_time ||
+        item.start_time
+    );
+
+
+if(
+    isNaN(
+        transactionDate.getTime()
+    )
+) {
+
+    return;
+
+}
+
+
+const year =
+    transactionDate.getFullYear();
+
+
+const month =
+    transactionDate.getMonth();
+
+
+const date =
+    transactionDate.getDate();
+
+
+
+/* ==========================================
+   MONTH
+========================================== */
+
+if(
+    year === currentYear &&
+    month === currentMonth
+) {
+
+    monthlyRevenue += price;
+
+}
+
+
+
+/* ==========================================
+   TODAY
+========================================== */
+
+if(
+    year === currentYear &&
+    month === currentMonth &&
+    date === currentDate
+) {
+
+    todayRevenue += price;
+
+}
+
+});
+
+
+
+/* ==========================================
+   EXPENSE
+========================================== */
 
 let expenseTotal = 0;
 
 
 Object.values(
     expensesData || {}
-).forEach(
-expense => {
+).forEach(expense => {
 
 
-if(!expense) return;
+if(!expense) {
+
+    return;
+
+}
 
 
 const amount =
-    Number(expense.amount) || 0;
+    Number(
+        expense.amount
+    ) || 0;
 
 
 const parts =
@@ -2336,13 +2450,24 @@ const parts =
     ).split("-");
 
 
-if(parts.length !== 3)
+if(parts.length !== 3) {
+
     return;
+
+}
+
+
+const year =
+    Number(parts[0]);
+
+
+const month =
+    Number(parts[1]);
 
 
 if(
-    Number(parts[0]) === year &&
-    Number(parts[1]) === month
+    year === currentYear &&
+    month === currentMonth + 1
 ) {
 
     expenseTotal += amount;
@@ -2352,20 +2477,31 @@ if(
 });
 
 
-const profit =
-    monthly - expenseTotal;
 
+/* ==========================================
+   PROFIT
+========================================== */
+
+const profit =
+    monthlyRevenue -
+    expenseTotal;
+
+
+
+/* ==========================================
+   DISPLAY
+========================================== */
 
 document.getElementById(
     "todayRevenue"
 ).innerText =
-    `${today.toLocaleString()} บาท`;
+    `${todayRevenue.toLocaleString()} บาท`;
 
 
 document.getElementById(
     "monthlyRevenue"
 ).innerText =
-    `${monthly.toLocaleString()} บาท`;
+    `${monthlyRevenue.toLocaleString()} บาท`;
 
 
 document.getElementById(
@@ -2394,6 +2530,32 @@ profitElement.className =
 
 
 /* =====================================================
+   CHECK PAID TRANSACTION
+===================================================== */
+
+function isPaidTransaction(item) {
+
+
+/*
+ * ถ้าไม่มี payment_status
+ * ถือว่าเป็นข้อมูลเก่า
+ * และยังคงนำมาคำนวณรายได้
+ */
+
+if(!item.payment_status) {
+
+    return true;
+
+}
+
+
+return item.payment_status === "paid";
+
+}
+
+
+
+/* =====================================================
    REVENUE PER LOCKER
 ===================================================== */
 
@@ -2402,17 +2564,23 @@ function getLockerRevenue() {
 
 const revenue = {
 
-    "01":0,
+    "01": 0,
 
-    "02":0,
+    "02": 0,
 
-    "03":0
+    "03": 0
 
 };
 
 
-transactions.forEach(
-item => {
+transactions.forEach(item => {
+
+
+if(!isPaidTransaction(item)) {
+
+    return;
+
+}
 
 
 const id =
@@ -2422,12 +2590,17 @@ const id =
 
 
 const price =
-    Number(item.price) || 0;
+    Number(
+        item.price
+    ) || 0;
 
 
 if(
     Object.prototype.hasOwnProperty
-    .call(revenue,id)
+    .call(
+        revenue,
+        id
+    )
 ) {
 
     revenue[id] += price;
@@ -2455,6 +2628,7 @@ const container =
         "lockerRevenueContainer"
     );
 
+
 const revenue =
     getLockerRevenue();
 
@@ -2462,8 +2636,7 @@ const revenue =
 container.innerHTML = "";
 
 
-["01","02","03"].forEach(
-id => {
+["01","02","03"].forEach(id => {
 
 
 container.innerHTML += `
@@ -2526,6 +2699,7 @@ const container =
         "topLockerContainer"
     );
 
+
 const revenue =
     getLockerRevenue();
 
@@ -2533,7 +2707,8 @@ const revenue =
 const ranking =
     Object.entries(revenue)
     .sort(
-        (a,b) => b[1]-a[1]
+        (a,b) =>
+            b[1] - a[1]
     );
 
 
@@ -2541,7 +2716,10 @@ const top =
     ranking[0];
 
 
-if(!top || top[1] <= 0) {
+if(
+    !top ||
+    top[1] <= 0
+) {
 
 
 container.innerHTML = `
@@ -2571,19 +2749,26 @@ container.innerHTML = `
 
 `;
 
+
 return;
 
 }
 
 
+
 const count =
     transactions.filter(
         item =>
+
+        isPaidTransaction(item) &&
+
         String(
             item.locker_id
         ).padStart(2,"0")
         === top[0]
+
     ).length;
+
 
 
 container.innerHTML = `
@@ -2690,7 +2875,10 @@ if(!name) {
 }
 
 
-if(!amount || amount <= 0) {
+if(
+    !amount ||
+    amount <= 0
+) {
 
     alert(
         "กรุณากรอกจำนวนเงิน"
@@ -2712,11 +2900,13 @@ if(!date) {
 }
 
 
+
 try {
 
 
 addExpenseBtn.disabled =
     true;
+
 
 addExpenseBtn.innerText =
     "⏳ กำลังบันทึก...";
@@ -2736,6 +2926,7 @@ const expense = {
 };
 
 
+
 const response =
     await fetch(
         EXPENSES_URL,
@@ -2745,7 +2936,7 @@ const response =
 
             headers:{
                 "Content-Type":
-                "application/json"
+                    "application/json"
             },
 
             body:
@@ -2764,6 +2955,7 @@ if(!response.ok) {
     );
 
 }
+
 
 
 document.getElementById(
@@ -2790,10 +2982,12 @@ catch(error) {
 
 console.error(error);
 
+
 alert(
     "❌ เกิดข้อผิดพลาด\n\n" +
     error.message
 );
+
 
 }
 finally {
@@ -2801,6 +2995,7 @@ finally {
 
 addExpenseBtn.disabled =
     false;
+
 
 addExpenseBtn.innerText =
     "➕ เพิ่ม";
@@ -2834,15 +3029,18 @@ if(!expense) {
 }
 
 
+
 const confirmDelete =
     confirm(
 
 `ต้องการลบรายการนี้หรือไม่?
 
 รายการ: ${expense.name || "-"}
+
 จำนวนเงิน: ${
-    Number(expense.amount || 0)
-    .toLocaleString()
+    Number(
+        expense.amount || 0
+    ).toLocaleString()
 } บาท
 
 การลบไม่สามารถย้อนกลับได้`
@@ -2855,6 +3053,7 @@ if(!confirmDelete) {
     return;
 
 }
+
 
 
 try {
@@ -2878,11 +3077,13 @@ if(!response.ok) {
     const errorText =
         await response.text();
 
+
     throw new Error(
         `ลบไม่สำเร็จ (${response.status}) ${errorText}`
     );
 
 }
+
 
 
 delete expensesData[key];
@@ -2972,6 +3173,7 @@ return;
 }
 
 
+
 items.sort(
 (a,b) => {
 
@@ -2992,9 +3194,10 @@ const dateB =
     );
 
 
-return dateA-dateB;
+return dateA - dateB;
 
 });
+
 
 
 let html = `
@@ -3026,6 +3229,7 @@ let html = `
 `;
 
 
+
 items.forEach(
 ([key,item]) => {
 
@@ -3049,7 +3253,9 @@ ${escapeHtml(
 
 ${
     (
-        Number(item.amount) || 0
+        Number(
+            item.amount
+        ) || 0
     ).toLocaleString()
 }
 
@@ -3089,6 +3295,7 @@ data-key="${escapeHtml(key)}"
 });
 
 
+
 html += `
 
 </tbody>
@@ -3102,24 +3309,22 @@ container.innerHTML =
     html;
 
 
-/* ==========================================
-   DELETE BUTTON EVENTS
-========================================== */
 
 container
 .querySelectorAll(
     ".delete-btn"
 )
-.forEach(
-button => {
+.forEach(button => {
 
 
 button.addEventListener(
     "click",
     () => {
 
+
         const key =
             button.dataset.key;
+
 
         deleteExpense(key);
 
@@ -3144,12 +3349,17 @@ let revenue = 0;
 let minutes = 0;
 
 
-transactions.forEach(
-item => {
+transactions.forEach(item => {
 
 
-revenue +=
-    Number(item.price) || 0;
+if(isPaidTransaction(item)) {
+
+    revenue +=
+        Number(
+            item.price
+        ) || 0;
+
+}
 
 
 minutes +=
@@ -3158,6 +3368,7 @@ minutes +=
     ) || 0;
 
 });
+
 
 
 const hours =
@@ -3170,16 +3381,19 @@ const mins =
     minutes % 60;
 
 
+
 document.getElementById(
     "totalTransactions"
 ).innerText =
     transactions.length;
 
 
+
 document.getElementById(
     "totalTransactionRevenue"
 ).innerText =
     `${revenue.toLocaleString()} บาท`;
+
 
 
 document.getElementById(
@@ -3222,6 +3436,7 @@ const sort =
     ).value;
 
 
+
 if(search) {
 
 
@@ -3244,6 +3459,7 @@ result =
 }
 
 
+
 if(locker !== "all") {
 
 
@@ -3258,6 +3474,7 @@ result =
     );
 
 }
+
 
 
 if(sort === "newest") {
@@ -3282,6 +3499,7 @@ result.sort(
 }
 
 
+
 if(sort === "oldest") {
 
 
@@ -3304,18 +3522,26 @@ result.sort(
 }
 
 
+
 if(sort === "highest") {
 
 
 result.sort(
     (a,b) =>
 
-    (Number(b.price)||0)
+    (
+        Number(b.price) || 0
+    )
+
     -
-    (Number(a.price)||0)
+
+    (
+        Number(a.price) || 0
+    )
 );
 
 }
+
 
 
 if(sort === "lowest") {
@@ -3324,12 +3550,19 @@ if(sort === "lowest") {
 result.sort(
     (a,b) =>
 
-    (Number(a.price)||0)
+    (
+        Number(a.price) || 0
+    )
+
     -
-    (Number(b.price)||0)
+
+    (
+        Number(b.price) || 0
+    )
 );
 
 }
+
 
 
 return result;
@@ -3350,6 +3583,7 @@ const table =
         "historyTable"
     );
 
+
 const empty =
     document.getElementById(
         "emptyBox"
@@ -3369,6 +3603,7 @@ document.getElementById(
     `${result.length} รายการ`;
 
 
+
 if(result.length === 0) {
 
 
@@ -3381,9 +3616,11 @@ return;
 }
 
 
+
 empty.classList.add(
     "d-none"
 );
+
 
 
 result.forEach(
@@ -3427,7 +3664,7 @@ const price =
 
 
 const status =
-    item.payment_status === "paid"
+    isPaidTransaction(item)
 
     ?
 
@@ -3440,6 +3677,7 @@ const status =
     `<span class="status-unpaid">
         🟡 ยังไม่ชำระ
      </span>`;
+
 
 
 table.innerHTML += `
@@ -3682,6 +3920,7 @@ refreshBtn.addEventListener(
 );
 
 
+
 logoutBtn.addEventListener(
     "click",
     async () => {
@@ -3705,6 +3944,7 @@ logoutBtn.addEventListener(
 
             await signOut(auth);
 
+
             window.location.href =
                 "admin-login.html";
 
@@ -3714,6 +3954,7 @@ logoutBtn.addEventListener(
 
 
             console.error(error);
+
 
             alert(
                 "ไม่สามารถออกจากระบบได้"
@@ -3735,6 +3976,7 @@ document.getElementById(
 );
 
 
+
 document.getElementById(
     "lockerFilter"
 )
@@ -3744,6 +3986,7 @@ document.getElementById(
 );
 
 
+
 document.getElementById(
     "sortFilter"
 )
@@ -3751,6 +3994,7 @@ document.getElementById(
     "change",
     renderHistoryTable
 );
+
 
 
 document.getElementById(
