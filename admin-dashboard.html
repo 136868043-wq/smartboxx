@@ -587,8 +587,8 @@
             <h5 class="fw-bold mb-3">🔎 ค้นหา / กรองประวัติ</h5>
             <div class="row g-3">
                 <div class="col-md-4">
-                    <label class="form-label">ค้นหาเลขตู้ หรือชื่อนักศึกษา</label>
-                    <input type="text" id="searchInput" class="form-control" placeholder="เช่น 01 หรือ ชื่อนักศึกษา">
+                    <label class="form-label">ค้นหาเลขตู้, ชื่อ, รหัส หรือคณะ</label>
+                    <input type="text" id="searchInput" class="form-control" placeholder="เช่น 01, ชื่อ, คณะ">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">เลือกตู้</label>
@@ -628,7 +628,8 @@
                         <tr>
                             <th>#</th>
                             <th>ตู้</th>
-                            <th>ผู้ใช้งาน</th> <!-- เพิ่มคอลัมน์ใหม่ -->
+                            <th>ผู้ใช้งาน</th>
+                            <th>คณะ</th>
                             <th>เวลาเริ่มฝาก</th>
                             <th>เวลารับของคืน</th>
                             <th>ระยะเวลา</th>
@@ -1087,7 +1088,8 @@
                     const idStr = String(item.locker_id || "").toLowerCase();
                     const nameStr = String(item.student_name || "").toLowerCase();
                     const stIdStr = String(item.student_id || "").toLowerCase();
-                    return idStr.includes(search) || nameStr.includes(search) || stIdStr.includes(search);
+                    const facultyStr = String(item.faculty || "").toLowerCase();
+                    return idStr.includes(search) || nameStr.includes(search) || stIdStr.includes(search) || facultyStr.includes(search);
                 });
             }
 
@@ -1126,9 +1128,9 @@
                 const price = Number(item.price) || 0;
                 const status = isPaidTransaction(item) ? `<span class="status-paid">🟢 ชำระแล้ว</span>` : `<span class="status-unpaid">🟡 ยังไม่ชำระ</span>`;
 
-                // จัดรูปแบบชื่อและรหัส
                 const studentName = item.student_name ? escapeHtml(item.student_name) : "-";
-                const studentId = item.student_id ? escapeHtml(item.student_id) : "";
+                const studentId = item.student_id ? escapeHtml(item.student_id) : "ไม่ระบุรหัส";
+                const faculty = item.faculty ? escapeHtml(item.faculty) : "-";
                 const userInfo = `${studentName}<br><small class="text-muted">${studentId}</small>`;
 
                 table.innerHTML += `
@@ -1136,6 +1138,7 @@
                     <td>${index + 1}</td>
                     <td><strong>🚪 #${lockerId}</strong></td>
                     <td>${userInfo}</td>
+                    <td>${faculty}</td>
                     <td>${start}</td>
                     <td>${end}</td>
                     <td>${duration}</td>
