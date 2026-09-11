@@ -715,7 +715,7 @@
                 <div class="modal-body p-4">
                     <div id="lockerModalMessage" class="text-muted mb-3"></div>
 
-                    <!-- ส่วนที่เพิ่มใหม่ (ข้อมูลนักศึกษา) -->
+                    <!-- ข้อมูลนักศึกษา พร้อม Dropdown เลือกคณะ มรย. -->
                     <div id="studentInfoFields">
                         <label class="form-label fw-bold">🆔 รหัสนักศึกษา</label>
                         <input type="text" id="studentId" class="form-control mb-3" placeholder="เช่น 661234567">
@@ -723,8 +723,15 @@
                         <label class="form-label fw-bold">👤 ชื่อ-สกุล</label>
                         <input type="text" id="studentName" class="form-control mb-3" placeholder="กรอกชื่อ-สกุล">
                         
-                        <label class="form-label fw-bold">🎓 คณะ</label>
-                        <input type="text" id="studentFaculty" class="form-control mb-3" placeholder="เช่น บริหารธุรกิจ">
+                        <label class="form-label fw-bold">🎓 คณะ (มรย.)</label>
+                        <select id="studentFaculty" class="form-select mb-3">
+                            <option value="">-- กรุณาเลือกคณะ --</option>
+                            <option value="คณะครุศาสตร์">คณะครุศาสตร์</option>
+                            <option value="คณะวิทยาการจัดการ">คณะวิทยาการจัดการ</option>
+                            <option value="คณะวิทยาศาสตร์เทคโนโลยีและการเกษตร">คณะวิทยาศาสตร์เทคโนโลยีและการเกษตร</option>
+                            <option value="คณะมนุษยศาสตร์และสังคมศาสตร์">คณะมนุษยศาสตร์และสังคมศาสตร์</option>
+                            <option value="คณะสาธารณสุขศาสตร์และสหเวชศาสตร์">คณะสาธารณสุขศาสตร์และสหเวชศาสตร์</option>
+                        </select>
                         
                         <hr>
                     </div>
@@ -903,17 +910,16 @@
                 message.innerHTML = `กรุณากรอกข้อมูลและตั้งรหัสผ่านสำหรับ <strong>ตู้ #${id}</strong>`;
                 confirmBtn.className = "btn btn-success";
                 confirmBtn.innerHTML = "📦 ยืนยันฝากของ";
-                studentInfoFields.classList.remove("d-none"); // แสดงช่องกรอกข้อมูลนักศึกษา
+                studentInfoFields.classList.remove("d-none");
             } else {
                 title.innerHTML = "🔓 รับของคืน";
                 message.innerHTML = `กรุณากรอกรหัสผ่านของ <strong>ตู้ #${id}</strong> เพื่อรับของคืน`;
                 confirmBtn.className = "btn btn-danger";
                 confirmBtn.innerHTML = "🔓 ยืนยันรับของคืน";
-                studentInfoFields.classList.add("d-none"); // ซ่อนช่องกรอกข้อมูลนักศึกษา
+                studentInfoFields.classList.add("d-none");
             }
 
             lockerModal.show();
-            // Focus input (if pickup focus password, if deposit focus student id)
             setTimeout(() => {
                 if(action === "deposit") {
                     document.getElementById("studentId").focus();
@@ -933,20 +939,25 @@
             
             const studentId = document.getElementById("studentId").value.trim();
             const studentName = document.getElementById("studentName").value.trim();
-            const studentFaculty = document.getElementById("studentFaculty").value.trim();
+            const studentFaculty = document.getElementById("studentFaculty").value;
 
             errorBox.classList.add("d-none");
 
-            // เช็กว่ากรอกข้อมูลครบไหม (เฉพาะตอนฝากของ)
+            // ตรวจสอบการกรอกข้อมูลนักศึกษาและเลือกคณะ
             if (selectedAction === "deposit") {
-                if (!studentId || !studentName || !studentFaculty) {
-                    errorBox.innerText = "⚠️ กรุณากรอกข้อมูลนักศึกษาให้ครบถ้วน";
+                if (!studentId || !studentName) {
+                    errorBox.innerText = "⚠️ กรุณากรอกรหัสนักศึกษาและชื่อ-สกุลให้ครบถ้วน";
+                    errorBox.classList.remove("d-none");
+                    return;
+                }
+                if (!studentFaculty) {
+                    errorBox.innerText = "⚠️ กรุณาเลือกคณะของคุณ";
                     errorBox.classList.remove("d-none");
                     return;
                 }
             }
 
-            // เช็กรหัสผ่าน 4 หลัก
+            // ตรวจสอบรหัสผ่าน 4 หลัก
             if (!/^\d{4}$/.test(password)) {
                 errorBox.innerText = "⚠️ กรุณากรอกรหัสผ่านตัวเลข 4 หลัก";
                 errorBox.classList.remove("d-none");
@@ -1003,7 +1014,7 @@
             };
 
             await set(lockerRef, lockerData);
-            alert(`✅ ฝากของสำเร็จ\n\nตู้ #${lockerId}\nชื่อ: ${stName}\nรหัสผ่าน: ${password}\n\nกรุณาจำรหัสผ่านไว้สำหรับรับของคืน`);
+            alert(`✅ ฝากของสำเร็จ\n\nตู้ #${lockerId}\nชื่อ: ${stName}\nคณะ: ${stFaculty}\nรหัสผ่าน: ${password}\n\nกรุณาจำรหัสผ่านไว้สำหรับรับของคืน`);
         }
 
         /* =====================================================
@@ -1049,7 +1060,6 @@
                 price: price,
                 payment_status: "paid",
                 created_at: endTime.toISOString(),
-                // บันทึกประวัติผู้ใช้งานลงไปใน Transaction ด้วย
                 student_id: locker.student_id || "N/A",
                 student_name: locker.student_name || "N/A",
                 faculty: locker.faculty || "N/A"
