@@ -2,2686 +2,1130 @@
 <html lang="th">
 
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
-<title>SmartBox - Smart Locker</title>
-
-<link
-href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-rel="stylesheet">
-
-<link
-href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-rel="stylesheet">
-
-<style>
-
-/* =====================================================
-   GLOBAL
-===================================================== */
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    min-height: 100vh;
-    font-family:
-        Arial,
-        "Noto Sans Thai",
-        sans-serif;
-
-    background:
-        linear-gradient(
-            135deg,
-            #eef5ff 0%,
-            #f8fbff 45%,
-            #eef7f5 100%
-        );
-
-    color: #1e293b;
-}
-
-
-/* =====================================================
-   NAVBAR
-===================================================== */
-
-.topbar {
-    background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(15px);
-
-    border-bottom:
-        1px solid rgba(15,23,42,0.08);
-
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    font-weight: 800;
-    color: #0d6efd;
-    text-decoration: none;
-}
-
-.brand-logo {
-    width: 46px;
-    height: 46px;
-
-    border-radius: 14px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: white;
-    font-size: 1.45rem;
-
-    background:
-        linear-gradient(
-            135deg,
-            #0d6efd,
-            #2563eb
-        );
-
-    box-shadow:
-        0 8px 20px
-        rgba(13,110,253,0.25);
-}
-
-.brand-name {
-    font-size: 1.25rem;
-    letter-spacing: 0.3px;
-}
-
-.brand-sub {
-    font-size: 0.72rem;
-    color: #64748b;
-    font-weight: 500;
-}
-
-
-/* =====================================================
-   HERO
-===================================================== */
-
-.hero {
-    padding: 45px 0 30px;
-}
-
-.hero-card {
-    position: relative;
-    overflow: hidden;
-
-    border-radius: 28px;
-    padding: 42px;
-
-    color: white;
-
-    background:
-        linear-gradient(
-            135deg,
-            #0d6efd,
-            #2563eb 55%,
-            #0ea5e9
-        );
-
-    box-shadow:
-        0 20px 50px
-        rgba(13,110,253,0.20);
-}
-
-.hero-card::before {
-    content: "";
-
-    position: absolute;
-
-    width: 280px;
-    height: 280px;
-
-    border-radius: 50%;
-
-    background:
-        rgba(255,255,255,0.08);
-
-    right: -80px;
-    top: -100px;
-}
-
-.hero-card::after {
-    content: "";
-
-    position: absolute;
-
-    width: 180px;
-    height: 180px;
-
-    border-radius: 50%;
-
-    background:
-        rgba(255,255,255,0.06);
-
-    right: 120px;
-    bottom: -110px;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-}
-
-.hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-
-    padding: 7px 14px;
-
-    border-radius: 50px;
-
-    background:
-        rgba(255,255,255,0.15);
-
-    border:
-        1px solid
-        rgba(255,255,255,0.2);
-
-    font-size: 0.85rem;
-
-    margin-bottom: 18px;
-}
-
-.hero-title {
-    font-size:
-        clamp(2rem, 5vw, 3.4rem);
-
-    font-weight: 900;
-    margin-bottom: 10px;
-}
-
-.hero-description {
-    opacity: 0.9;
-
-    font-size: 1.05rem;
-
-    margin-bottom: 25px;
-}
-
-.hero-icon {
-    position: absolute;
-
-    right: 45px;
-    bottom: 25px;
-
-    font-size: 8rem;
-
-    opacity: 0.12;
-}
-
-
-/* =====================================================
-   PRICE
-===================================================== */
-
-.price-card {
-    margin-top: -15px;
-
-    position: relative;
-    z-index: 5;
-
-    background: white;
-
-    border-radius: 20px;
-
-    padding: 22px 25px;
-
-    box-shadow:
-        0 12px 35px
-        rgba(15,23,42,0.09);
-
-    border:
-        1px solid
-        rgba(15,23,42,0.05);
-}
-
-.price-label {
-    color: #64748b;
-    font-size: 0.9rem;
-}
-
-.price-value {
-    font-size: 2rem;
-
-    font-weight: 900;
-
-    color: #198754;
-}
-
-.price-note {
-    font-size: 0.82rem;
-    color: #64748b;
-}
-
-
-/* =====================================================
-   SECTION
-===================================================== */
-
-.section-header {
-    display: flex;
-
-    align-items: center;
-    justify-content: space-between;
-
-    margin: 40px 0 20px;
-}
-
-.section-title {
-    font-weight: 900;
-    font-size: 1.35rem;
-    margin: 0;
-}
-
-.section-subtitle {
-    color: #64748b;
-    font-size: 0.85rem;
-    margin-top: 4px;
-}
-
-
-/* =====================================================
-   LOCKER
-===================================================== */
-
-.locker-card {
-    position: relative;
-
-    background: white;
-
-    border-radius: 24px;
-
-    padding: 25px;
-
-    height: 100%;
-
-    border:
-        1px solid
-        rgba(15,23,42,0.06);
-
-    box-shadow:
-        0 10px 30px
-        rgba(15,23,42,0.07);
-
-    transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
-
-    overflow: hidden;
-}
-
-.locker-card:hover {
-    transform: translateY(-5px);
-
-    box-shadow:
-        0 18px 40px
-        rgba(15,23,42,0.12);
-}
-
-.locker-card.available {
-    border-top: 4px solid #198754;
-}
-
-.locker-card.occupied {
-    border-top: 4px solid #dc3545;
-}
-
-.locker-head {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: center;
-
-    margin-bottom: 20px;
-
-    gap: 10px;
-}
-
-.locker-number {
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-}
-
-.locker-icon {
-    width: 48px;
-    height: 48px;
-
-    border-radius: 15px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 1.4rem;
-
-    background: #eff6ff;
-
-    color: #0d6efd;
-}
-
-.locker-title {
-    font-weight: 900;
-    font-size: 1.25rem;
-    margin: 0;
-}
-
-.locker-label {
-    color: #64748b;
-    font-size: 0.78rem;
-}
-
-
-/* =====================================================
-   STATUS
-===================================================== */
-
-.status-pill {
-    display: inline-flex;
-
-    align-items: center;
-
-    gap: 6px;
-
-    padding: 7px 12px;
-
-    border-radius: 50px;
-
-    font-size: 0.8rem;
-
-    font-weight: 800;
-
-    white-space: nowrap;
-}
-
-.status-available {
-    color: #198754;
-    background: #eaf8f0;
-}
-
-.status-occupied {
-    color: #dc3545;
-    background: #fff0f1;
-}
-
-.status-dot {
-    width: 8px;
-    height: 8px;
-
-    border-radius: 50%;
-
-    background: currentColor;
-}
-
-
-/* =====================================================
-   LOCKER BODY
-===================================================== */
-
-.locker-body {
-    background: #f8fafc;
-
-    border-radius: 16px;
-
-    padding: 18px;
-}
-
-.info-row {
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    padding: 9px 0;
-
-    border-bottom:
-        1px solid #e9eef5;
-
-    gap: 10px;
-}
-
-.info-row:last-child {
-    border-bottom: none;
-}
-
-.info-label {
-    color: #64748b;
-    font-size: 0.85rem;
-}
-
-.info-value {
-    font-weight: 800;
-    text-align: right;
-}
-
-.current-price {
-    font-size: 1.55rem;
-
-    font-weight: 900;
-
-    color: #dc3545;
-}
-
-.available-message {
-    text-align: center;
-
-    padding: 18px 5px;
-
-    color: #198754;
-
-    font-weight: 700;
-}
-
-.available-icon {
-    font-size: 2.5rem;
-
-    margin-bottom: 8px;
-}
-
-
-/* =====================================================
-   ACTION BUTTON
-===================================================== */
-
-.action-btn {
-    width: 100%;
-
-    border: none;
-
-    border-radius: 14px;
-
-    padding: 13px 16px;
-
-    font-size: 1rem;
-
-    font-weight: 800;
-
-    transition: 0.2s;
-}
-
-.action-btn:hover {
-    transform: translateY(-2px);
-}
-
-.deposit-btn {
-    background: #198754;
-    color: white;
-}
-
-.deposit-btn:hover {
-    background: #157347;
-    color: white;
-}
-
-.pickup-btn {
-    background: #dc3545;
-    color: white;
-}
-
-.pickup-btn:hover {
-    background: #bb2d3b;
-    color: white;
-}
-
-.action-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-
-/* =====================================================
-   INFO
-===================================================== */
-
-.info-section {
-    margin-top: 35px;
-}
-
-.info-box {
-    background: white;
-
-    border-radius: 20px;
-
-    padding: 22px;
-
-    height: 100%;
-
-    border:
-        1px solid
-        rgba(15,23,42,0.06);
-
-    box-shadow:
-        0 8px 25px
-        rgba(15,23,42,0.05);
-}
-
-.info-icon {
-    width: 45px;
-    height: 45px;
-
-    border-radius: 13px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    background: #eff6ff;
-
-    color: #0d6efd;
-
-    font-size: 1.2rem;
-
-    margin-bottom: 12px;
-}
-
-.info-box h5 {
-    font-weight: 800;
-}
-
-
-/* =====================================================
-   CONTACT
-===================================================== */
-
-.contact-card {
-    margin-top: 35px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #172033,
-            #263449
-        );
-
-    color: white;
-
-    border-radius: 24px;
-
-    padding: 28px;
-
-    box-shadow:
-        0 15px 35px
-        rgba(15,23,42,0.15);
-}
-
-.contact-title {
-    font-size: 1.2rem;
-    font-weight: 800;
-}
-
-.contact-phone {
-    display: inline-flex;
-
-    align-items: center;
-
-    gap: 8px;
-
-    margin-top: 15px;
-
-    padding: 11px 18px;
-
-    border-radius: 12px;
-
-    background: white;
-
-    color: #172033;
-
-    text-decoration: none;
-
-    font-weight: 900;
-}
-
-
-/* =====================================================
-   FOOTER
-===================================================== */
-
-.footer {
-    padding: 30px 0;
-
-    text-align: center;
-
-    color: #64748b;
-
-    font-size: 0.8rem;
-}
-
-
-/* =====================================================
-   LOADING
-===================================================== */
-
-.loading {
-    text-align: center;
-
-    padding: 45px;
-
-    color: #64748b;
-}
-
-.spinner {
-    width: 35px;
-    height: 35px;
-
-    border-radius: 50%;
-
-    border:
-        3px solid #e2e8f0;
-
-    border-top-color:
-        #0d6efd;
-
-    animation:
-        spin 0.8s linear infinite;
-
-    margin:
-        0 auto 15px;
-}
-
-@keyframes spin {
-
-    to {
-        transform: rotate(360deg);
-    }
-
-}
-
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media(max-width:767px) {
-
-    body {
-        background: #f4f7fb;
-    }
-
-    .hero {
-        padding-top: 20px;
-    }
-
-    .hero-card {
-        padding: 30px 22px;
-
-        border-radius: 22px;
-    }
-
-    .hero-icon {
-        right: 10px;
-
-        font-size: 6rem;
-    }
-
-    .price-card {
-        margin-top: 15px;
-    }
-
-    .section-header {
-        margin-top: 30px;
-    }
-
-    .locker-card {
-        padding: 20px;
-    }
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartBox - Smart Locker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, "Noto Sans Thai", sans-serif;
+            background: linear-gradient(135deg, #eef5ff 0%, #f8fbff 45%, #eef7f5 100%);
+            color: #1e293b;
+        }
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+        .topbar {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            color: #0d6efd;
+            text-decoration: none;
+        }
+
+        .brand-logo {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.45rem;
+            background: linear-gradient(135deg, #0d6efd, #2563eb);
+            box-shadow: 0 8px 20px rgba(13, 110, 253, 0.25);
+        }
+
+        .brand-name {
+            font-size: 1.25rem;
+            letter-spacing: 0.3px;
+        }
+
+        .brand-sub {
+            font-size: 0.72rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* =====================================================
+           HERO
+        ===================================================== */
+        .hero {
+            padding: 45px 0 30px;
+        }
+
+        .hero-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 28px;
+            padding: 42px;
+            color: white;
+            background: linear-gradient(135deg, #0d6efd, #2563eb 55%, #0ea5e9);
+            box-shadow: 0 20px 50px rgba(13, 110, 253, 0.20);
+        }
+
+        .hero-card::before {
+            content: "";
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            right: -80px;
+            top: -100px;
+        }
+
+        .hero-card::after {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            right: 120px;
+            bottom: -110px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 14px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 0.85rem;
+            margin-bottom: 18px;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .hero-description {
+            opacity: 0.9;
+            font-size: 1.05rem;
+            margin-bottom: 25px;
+        }
+
+        .hero-icon {
+            position: absolute;
+            right: 45px;
+            bottom: 25px;
+            font-size: 8rem;
+            opacity: 0.12;
+        }
+
+        /* =====================================================
+           PRICE
+        ===================================================== */
+        .price-card {
+            margin-top: -15px;
+            position: relative;
+            z-index: 5;
+            background: white;
+            border-radius: 20px;
+            padding: 22px 25px;
+            box-shadow: 0 12px 35px rgba(15, 23, 42, 0.09);
+            border: 1px solid rgba(15, 23, 42, 0.05);
+        }
+
+        .price-label {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .price-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #198754;
+        }
+
+        .price-note {
+            font-size: 0.82rem;
+            color: #64748b;
+        }
+
+        /* =====================================================
+           SECTION
+        ===================================================== */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 40px 0 20px;
+        }
+
+        .section-title {
+            font-weight: 900;
+            font-size: 1.35rem;
+            margin: 0;
+        }
+
+        .section-subtitle {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        /* =====================================================
+           LOCKER
+        ===================================================== */
+        .locker-card {
+            position: relative;
+            background: white;
+            border-radius: 24px;
+            padding: 25px;
+            height: 100%;
+            border: 1px solid rgba(15, 23, 42, 0.06);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.07);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            overflow: hidden;
+        }
+
+        .locker-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+        }
+
+        .locker-card.available {
+            border-top: 4px solid #198754;
+        }
+
+        .locker-card.occupied {
+            border-top: 4px solid #dc3545;
+        }
+
+        .locker-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .locker-number {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .locker-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            background: #eff6ff;
+            color: #0d6efd;
+        }
+
+        .locker-title {
+            font-weight: 900;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+
+        .locker-label {
+            color: #64748b;
+            font-size: 0.78rem;
+        }
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .status-available {
+            color: #198754;
+            background: #eaf8f0;
+        }
+
+        .status-occupied {
+            color: #dc3545;
+            background: #fff0f1;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        /* =====================================================
+           LOCKER BODY
+        ===================================================== */
+        .locker-body {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 18px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 9px 0;
+            border-bottom: 1px solid #e9eef5;
+            gap: 10px;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        .info-value {
+            font-weight: 800;
+            text-align: right;
+        }
+
+        .current-price {
+            font-size: 1.55rem;
+            font-weight: 900;
+            color: #dc3545;
+        }
+
+        .available-message {
+            text-align: center;
+            padding: 18px 5px;
+            color: #198754;
+            font-weight: 700;
+        }
+
+        .available-icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+
+        /* =====================================================
+           ACTION BUTTON
+        ===================================================== */
+        .action-btn {
+            width: 100%;
+            border: none;
+            border-radius: 14px;
+            padding: 13px 16px;
+            font-size: 1rem;
+            font-weight: 800;
+            transition: 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .deposit-btn {
+            background: #198754;
+            color: white;
+        }
+
+        .deposit-btn:hover {
+            background: #157347;
+            color: white;
+        }
+
+        .pickup-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .pickup-btn:hover {
+            background: #bb2d3b;
+            color: white;
+        }
+
+        .action-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* =====================================================
+           INFO
+        ===================================================== */
+        .info-section {
+            margin-top: 35px;
+        }
+
+        .info-box {
+            background: white;
+            border-radius: 20px;
+            padding: 22px;
+            height: 100%;
+            border: 1px solid rgba(15, 23, 42, 0.06);
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.05);
+        }
+
+        .info-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eff6ff;
+            color: #0d6efd;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+
+        .info-box h5 {
+            font-weight: 800;
+        }
+
+        /* =====================================================
+           CONTACT
+        ===================================================== */
+        .contact-card {
+            margin-top: 35px;
+            background: linear-gradient(135deg, #172033, #263449);
+            color: white;
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 15px 35px rgba(15, 23, 42, 0.15);
+        }
+
+        .contact-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .contact-phone {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            padding: 11px 18px;
+            border-radius: 12px;
+            background: white;
+            color: #172033;
+            text-decoration: none;
+            font-weight: 900;
+        }
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+        .footer {
+            padding: 30px 0;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+
+        /* =====================================================
+           LOADING
+        ===================================================== */
+        .loading {
+            text-align: center;
+            padding: 45px;
+            color: #64748b;
+        }
+
+        .spinner {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 3px solid #e2e8f0;
+            border-top-color: #0d6efd;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+        @media(max-width:767px) {
+            body {
+                background: #f4f7fb;
+            }
+
+            .hero {
+                padding-top: 20px;
+            }
+
+            .hero-card {
+                padding: 30px 22px;
+                border-radius: 22px;
+            }
+
+            .hero-icon {
+                right: 10px;
+                font-size: 6rem;
+            }
+
+            .price-card {
+                margin-top: 15px;
+            }
+
+            .section-header {
+                margin-top: 30px;
+            }
+
+            .locker-card {
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
-
-<!-- =====================================================
-     NAVBAR
-===================================================== -->
-
-<nav class="topbar">
-
-<div class="container">
-
-<div class="py-3">
-
-<a
-href="index.html"
-class="brand">
-
-<div class="brand-logo">
-
-<i class="bi bi-box-seam"></i>
-
-</div>
-
-<div>
-
-<div class="brand-name">
-SmartBox
-</div>
-
-<div class="brand-sub">
-SMART LOCKER STATION
-</div>
-
-</div>
-
-</a>
-
-</div>
-
-</div>
-
-</nav>
-
-
-
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
-<main>
-
-<div class="container">
-
-
-<!-- =====================================================
-     HERO
-===================================================== -->
-
-<section class="hero">
-
-<div class="hero-card">
-
-<div class="hero-content">
-
-<div class="hero-badge">
-
-<i class="bi bi-shield-check"></i>
-
-ระบบตู้ล็อกเกอร์อัจฉริยะ
-
-</div>
-
-
-<h1 class="hero-title">
-
-ฝากของง่าย<br>
-
-ปลอดภัย สะดวก รวดเร็ว
-
-</h1>
-
-
-<p class="hero-description">
-
-SmartBox ระบบฝากของอัจฉริยะ
-สำหรับการใช้งานที่สะดวกและปลอดภัย
-
-</p>
-
-</div>
-
-
-<div class="hero-icon">
-
-<i class="bi bi-box-seam"></i>
-
-</div>
-
-</div>
-
-
-<!-- PRICE -->
-
-<div class="price-card">
-
-<div class="row align-items-center">
-
-<div class="col-md-8">
-
-<div class="price-label">
-
-<i class="bi bi-cash-coin me-1"></i>
-
-ค่าบริการปัจจุบัน
-
-</div>
-
-<div class="price-value">
-
-10 บาท / ชั่วโมง
-
-</div>
-
-<div class="price-note">
-
-เศษของชั่วโมงปัดขึ้น
-
-</div>
-
-</div>
-
-
-<div class="col-md-4 text-md-end mt-3 mt-md-0">
-
-<span class="badge text-bg-success px-3 py-2">
-
-<i class="bi bi-check-circle me-1"></i>
-
-เปิดให้บริการ
-
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- =====================================================
-     LOCKER STATUS
-===================================================== -->
-
-<div class="section-header">
-
-<div>
-
-<h2 class="section-title">
-
-<i class="bi bi-grid-3x3-gap-fill text-primary me-2"></i>
-
-สถานะตู้ล็อกเกอร์
-
-</h2>
-
-<div class="section-subtitle">
-
-ตรวจสอบสถานะตู้แบบ Real-time
-
-</div>
-
-</div>
-
-
-<div>
-
-<span
-id="connectionStatus"
-class="badge text-bg-secondary">
-
-กำลังเชื่อมต่อ...
-
-</span>
-
-</div>
-
-</div>
-
-
-
-<div
-id="lockerContainer"
-class="row g-4">
-
-<div class="col-12">
-
-<div class="loading">
-
-<div class="spinner"></div>
-
-กำลังโหลดข้อมูลตู้...
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<!-- =====================================================
-     INFORMATION
-===================================================== -->
-
-<section class="info-section">
-
-<div class="row g-4">
-
-
-<div class="col-md-4">
-
-<div class="info-box">
-
-<div class="info-icon">
-
-<i class="bi bi-clock-history"></i>
-
-</div>
-
-<h5>
-คิดค่าบริการตามเวลา
-</h5>
-
-<p class="text-muted mb-0">
-
-ระบบคำนวณค่าบริการตามระยะเวลาที่ใช้งานจริง
-โดยเศษของชั่วโมงจะปัดขึ้น
-
-</p>
-
-</div>
-
-</div>
-
-
-
-<div class="col-md-4">
-
-<div class="info-box">
-
-<div class="info-icon">
-
-<i class="bi bi-shield-lock"></i>
-
-</div>
-
-<h5>
-ปลอดภัยและเป็นส่วนตัว
-</h5>
-
-<p class="text-muted mb-0">
-
-ข้อมูลการใช้งานถูกจัดเก็บในระบบ
-เพื่อช่วยให้สามารถตรวจสอบรายการได้
-
-</p>
-
-</div>
-
-</div>
-
-
-
-<div class="col-md-4">
-
-<div class="info-box">
-
-<div class="info-icon">
-
-<i class="bi bi-lightning-charge"></i>
-
-</div>
-
-<h5>
-ใช้งานง่าย
-</h5>
-
-<p class="text-muted mb-0">
-
-ตรวจสอบตู้ว่างและสถานะการใช้งาน
-ได้อย่างรวดเร็วจากหน้าเดียว
-
-</p>
-
-</div>
-
-</div>
-
-
-</div>
-
-</section>
-
-
-
-<!-- =====================================================
-     CONTACT
-===================================================== -->
-
-<section class="contact-card">
-
-<div class="row align-items-center">
-
-<div class="col-md-8">
-
-<div class="contact-title">
-
-<i class="bi bi-key-fill me-2"></i>
-
-ลืมรหัสผ่าน?
-
-</div>
-
-<div class="mt-2 opacity-75">
-
-กรุณาติดต่อเจ้าหน้าที่เพื่อขอความช่วยเหลือ
-
-</div>
-
-</div>
-
-
-<div class="col-md-4 text-md-end">
-
-<a
-href="tel:0989534947"
-class="contact-phone">
-
-<i class="bi bi-telephone-fill"></i>
-
-098-9534947
-
-</a>
-
-</div>
-
-</div>
-
-</section>
-
-
-</div>
-
-</main>
-
-
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
-<footer class="footer">
-
-<div class="container">
-
-SmartBox Station © 2026
-
-<br>
-
-ระบบจัดการตู้ล็อกเกอร์อัจฉริยะ
-
-</div>
-
-</footer>
-
-
-
-<!-- =====================================================
-     MODAL
-===================================================== -->
-
-<div
-class="modal fade"
-id="lockerActionModal"
-tabindex="-1">
-
-<div class="modal-dialog modal-dialog-centered">
-
-<div
-class="modal-content"
-style="
-border:0;
-border-radius:24px;
-overflow:hidden;
-">
-
-<div class="modal-header">
-
-<h5
-class="modal-title fw-bold"
-id="lockerModalTitle">
-
-📦 ฝากของ
-
-</h5>
-
-<button
-type="button"
-class="btn-close"
-data-bs-dismiss="modal">
-</button>
-
-</div>
-
-
-<div class="modal-body p-4">
-
-<div
-id="lockerModalMessage"
-class="text-muted mb-3">
-</div>
-
-
-<label
-class="form-label fw-bold">
-
-🔐 รหัสผ่านตู้
-
-</label>
-
-
-<input
-type="password"
-id="lockerPassword"
-class="form-control form-control-lg text-center"
-maxlength="4"
-inputmode="numeric"
-autocomplete="off"
-placeholder="กรอกรหัส 4 หลัก">
-
-
-<div
-id="lockerModalError"
-class="alert alert-danger mt-3 d-none">
-</div>
-
-</div>
-
-
-<div class="modal-footer">
-
-<button
-type="button"
-class="btn btn-secondary"
-data-bs-dismiss="modal">
-
-ยกเลิก
-
-</button>
-
-
-<button
-type="button"
-id="lockerConfirmBtn"
-class="btn btn-primary">
-
-ยืนยัน
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<!-- =====================================================
-     BOOTSTRAP
-===================================================== -->
-
-<script
-src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
-</script>
-
-
-
-<!-- =====================================================
-     FIREBASE
-===================================================== -->
-
-<script type="module">
-
-import {
-    initializeApp
-}
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-
-import {
-    getDatabase,
-    ref,
-    onValue,
-    get,
-    set,
-    push
-}
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
-
-/* =====================================================
-   FIREBASE CONFIG
-===================================================== */
-
-const firebaseConfig = {
-
-    apiKey:
-    "AIzaSyARnzW3_ECpYOsKpKeP_KT90kgJImvGzOg",
-
-    authDomain:
-    "smartboxx-2b81e.firebaseapp.com",
-
-    databaseURL:
-    "https://smartboxx-2b81e-default-rtdb.firebaseio.com",
-
-    projectId:
-    "smartboxx-2b81e",
-
-    storageBucket:
-    "smartboxx-2b81e.firebasestorage.app",
-
-    messagingSenderId:
-    "1000015980584",
-
-    appId:
-    "1:1000015980584:web:0dc78a8319a4272d15ed1d",
-
-    measurementId:
-    "G-3KC8NRT65H"
-
-};
-
-
-/* =====================================================
-   INITIALIZE
-===================================================== */
-
-const app =
-initializeApp(firebaseConfig);
-
-const db =
-getDatabase(app);
-
-
-/* =====================================================
-   ELEMENTS
-===================================================== */
-
-const lockerContainer =
-document.getElementById(
-    "lockerContainer"
-);
-
-const connectionStatus =
-document.getElementById(
-    "connectionStatus"
-);
-
-
-/* =====================================================
-   FIREBASE REFERENCE
-===================================================== */
-
-const lockersRef =
-ref(
-    db,
-    "lockers"
-);
-
-
-/* =====================================================
-   SELECTED LOCKER
-===================================================== */
-
-let selectedLockerId = null;
-
-let selectedAction = null;
-
-
-/* =====================================================
-   MODAL
-===================================================== */
-
-const lockerModalElement =
-document.getElementById(
-    "lockerActionModal"
-);
-
-const lockerModal =
-new bootstrap.Modal(
-    lockerModalElement
-);
-
-
-/* =====================================================
-   REALTIME LOCKERS
-===================================================== */
-
-onValue(
-
-    lockersRef,
-
-    (snapshot) => {
-
-        const data =
-            snapshot.val() || {};
-
-        connectionStatus.className =
-            "badge text-bg-success";
-
-        connectionStatus.innerHTML = `
-            <i class="bi bi-wifi"></i>
-            เชื่อมต่อแล้ว
-        `;
-
-        renderLockers(data);
-
-    },
-
-    (error) => {
-
-        console.error(
-            "Firebase Error:",
-            error
-        );
-
-        connectionStatus.className =
-            "badge text-bg-danger";
-
-        connectionStatus.innerHTML = `
-            <i class="bi bi-wifi-off"></i>
-            เชื่อมต่อไม่ได้
-        `;
-
-    }
-
-);
-
-
-/* =====================================================
-   RENDER LOCKERS
-===================================================== */
-
-function renderLockers(data) {
-
-    lockerContainer.innerHTML = "";
-
-    for (
-        let i = 1;
-        i <= 3;
-        i++
-    ) {
-
-        const id =
-            String(i).padStart(
-                2,
-                "0"
-            );
-
-        const locker =
-            data[id] || {};
-
-        const occupied =
-            String(locker.status)
-                .toLowerCase()
-                === "occupied";
-
-
-        const card =
-            document.createElement(
-                "div"
-            );
-
-        card.className =
-            "col-md-4";
-
-
-        card.innerHTML = `
-
-        <div class="
-            locker-card
-            ${occupied
-                ? "occupied"
-                : "available"}
-        ">
-
-
-            <div class="locker-head">
-
-
-                <div class="locker-number">
-
-
-                    <div class="locker-icon">
-
+    <!-- =====================================================
+         NAVBAR
+    ===================================================== -->
+    <nav class="topbar">
+        <div class="container">
+            <div class="py-3">
+                <a href="index.html" class="brand">
+                    <div class="brand-logo">
                         <i class="bi bi-box-seam"></i>
-
                     </div>
-
-
                     <div>
-
-                        <div class="locker-label">
-
-                            SMART LOCKER
-
-                        </div>
-
-                        <h3 class="locker-title">
-
-                            ตู้หมายเลข #${id}
-
-                        </h3>
-
+                        <div class="brand-name">SmartBox</div>
+                        <div class="brand-sub">SMART LOCKER STATION</div>
                     </div>
+                </a>
+            </div>
+        </div>
+    </nav>
 
+    <!-- =====================================================
+         MAIN
+    ===================================================== -->
+    <main>
+        <div class="container">
+
+            <!-- =====================================================
+                 HERO
+            ===================================================== -->
+            <section class="hero">
+                <div class="hero-card">
+                    <div class="hero-content">
+                        <div class="hero-badge">
+                            <i class="bi bi-shield-check"></i>
+                            ระบบตู้ล็อกเกอร์อัจฉริยะ
+                        </div>
+                        <h1 class="hero-title">
+                            ฝากของง่าย<br>
+                            ปลอดภัย สะดวก รวดเร็ว
+                        </h1>
+                        <p class="hero-description">
+                            SmartBox ระบบฝากของอัจฉริยะ สำหรับการใช้งานที่สะดวกและปลอดภัย
+                        </p>
+                    </div>
+                    <div class="hero-icon">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
                 </div>
 
-
-                ${
-                    occupied
-
-                    ?
-
-                    `
-
-                    <div class="
-                        status-pill
-                        status-occupied
-                    ">
-
-                        <span class="status-dot"></span>
-
-                        ไม่ว่าง
-
+                <!-- PRICE -->
+                <div class="price-card">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <div class="price-label">
+                                <i class="bi bi-cash-coin me-1"></i>
+                                ค่าบริการปัจจุบัน
+                            </div>
+                            <div class="price-value">
+                                10 บาท / ชั่วโมง
+                            </div>
+                            <div class="price-note">
+                                เศษของชั่วโมงปัดขึ้น
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                            <span class="badge text-bg-success px-3 py-2">
+                                <i class="bi bi-check-circle me-1"></i>
+                                เปิดให้บริการ
+                            </span>
+                        </div>
                     </div>
+                </div>
+            </section>
 
-                    `
-
-                    :
-
-                    `
-
-                    <div class="
-                        status-pill
-                        status-available
-                    ">
-
-                        <span class="status-dot"></span>
-
-                        ว่าง
-
+            <!-- =====================================================
+                 LOCKER STATUS
+            ===================================================== -->
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">
+                        <i class="bi bi-grid-3x3-gap-fill text-primary me-2"></i>
+                        สถานะตู้ล็อกเกอร์
+                    </h2>
+                    <div class="section-subtitle">
+                        ตรวจสอบสถานะตู้แบบ Real-time
                     </div>
-
-                    `
-                }
-
-
+                </div>
+                <div>
+                    <span id="connectionStatus" class="badge text-bg-secondary">
+                        กำลังเชื่อมต่อ...
+                    </span>
+                </div>
             </div>
 
-
-            <div class="locker-body">
-
-
-                ${
-                    occupied
-
-                    ?
-
-                    `
-
-                    <div class="info-row">
-
-                        <div class="info-label">
-
-                            <i class="bi bi-clock me-1"></i>
-
-                            เวลาเริ่มฝาก
-
-                        </div>
-
-                        <div class="info-value">
-
-                            ${formatDateTime(
-                                locker.start_time
-                            )}
-
-                        </div>
-
+            <div id="lockerContainer" class="row g-4">
+                <div class="col-12">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        กำลังโหลดข้อมูลตู้...
                     </div>
-
-
-                    <div class="info-row">
-
-                        <div class="info-label">
-
-                            <i class="bi bi-hourglass-split me-1"></i>
-
-                            ระยะเวลาใช้งาน
-
-                        </div>
-
-                        <div
-                            class="info-value"
-                            id="duration-${id}"
-                        >
-
-                            กำลังคำนวณ...
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="info-row">
-
-                        <div class="info-label">
-
-                            <i class="bi bi-cash-stack me-1"></i>
-
-                            ค่าบริการปัจจุบัน
-
-                        </div>
-
-                        <div
-                            class="current-price"
-                            id="price-${id}"
-                        >
-
-                            กำลังคำนวณ...
-
-                        </div>
-
-                    </div>
-
-                    `
-
-                    :
-
-                    `
-
-                    <div class="available-message">
-
-                        <div class="available-icon">
-
-                            <i class="
-                                bi
-                                bi-check-circle-fill
-                            "></i>
-
-                        </div>
-
-                        <div>
-
-                            สามารถฝากของได้
-
-                        </div>
-
-                        <div class="
-                            small
-                            text-muted
-                            mt-1
-                        ">
-
-                            ตู้นี้พร้อมให้บริการ
-
-                        </div>
-
-                    </div>
-
-                    `
-                }
-
-
+                </div>
             </div>
 
-
-            ${
-                occupied
-
-                ?
-
-                `
-
-                <div class="
-                    text-center
-                    mt-3
-                ">
-
-                    <div class="
-                        small
-                        text-muted
-                        mb-2
-                    ">
-
-                        💰 10 บาท / ชั่วโมง
-
+            <!-- =====================================================
+                 INFORMATION
+            ===================================================== -->
+            <section class="info-section">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="info-box">
+                            <div class="info-icon">
+                                <i class="bi bi-clock-history"></i>
+                            </div>
+                            <h5>คิดค่าบริการตามเวลา</h5>
+                            <p class="text-muted mb-0">
+                                ระบบคำนวณค่าบริการตามระยะเวลาที่ใช้งานจริง โดยเศษของชั่วโมงจะปัดขึ้น
+                            </p>
+                        </div>
                     </div>
-
-
-                    <button
-                        class="
-                            action-btn
-                            pickup-btn
-                        "
-                        onclick="
-                            openLockerAction(
-                                '${id}',
-                                'pickup'
-                            )
-                        "
-                    >
-
-                        <i class="
-                            bi
-                            bi-unlock-fill
-                            me-2
-                        "></i>
-
-                        รับของคืน
-
-                    </button>
-
+                    <div class="col-md-4">
+                        <div class="info-box">
+                            <div class="info-icon">
+                                <i class="bi bi-shield-lock"></i>
+                            </div>
+                            <h5>ปลอดภัยและเป็นส่วนตัว</h5>
+                            <p class="text-muted mb-0">
+                                ข้อมูลการใช้งานถูกจัดเก็บในระบบ เพื่อช่วยให้สามารถตรวจสอบรายการได้
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="info-box">
+                            <div class="info-icon">
+                                <i class="bi bi-lightning-charge"></i>
+                            </div>
+                            <h5>ใช้งานง่าย</h5>
+                            <p class="text-muted mb-0">
+                                ตรวจสอบตู้ว่างและสถานะการใช้งาน ได้อย่างรวดเร็วจากหน้าเดียว
+                            </p>
+                        </div>
+                    </div>
                 </div>
+            </section>
 
-                `
-
-                :
-
-                `
-
-                <div class="
-                    text-center
-                    mt-3
-                ">
-
-                    <button
-                        class="
-                            action-btn
-                            deposit-btn
-                        "
-                        onclick="
-                            openLockerAction(
-                                '${id}',
-                                'deposit'
-                            )
-                        "
-                    >
-
-                        <i class="
-                            bi
-                            bi-box-arrow-in-down
-                            me-2
-                        "></i>
-
-                        ฝากของ
-
-                    </button>
-
+            <!-- =====================================================
+                 CONTACT
+            ===================================================== -->
+            <section class="contact-card">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <div class="contact-title">
+                            <i class="bi bi-key-fill me-2"></i>
+                            ลืมรหัสผ่าน?
+                        </div>
+                        <div class="mt-2 opacity-75">
+                            กรุณาติดต่อเจ้าหน้าที่เพื่อขอความช่วยเหลือ
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <a href="tel:0989534947" class="contact-phone">
+                            <i class="bi bi-telephone-fill"></i>
+                            098-9534947
+                        </a>
+                    </div>
                 </div>
-
-                `
-            }
-
+            </section>
 
         </div>
+    </main>
 
-        `;
+    <!-- =====================================================
+         FOOTER
+    ===================================================== -->
+    <footer class="footer">
+        <div class="container">
+            SmartBox Station © 2026<br>
+            ระบบจัดการตู้ล็อกเกอร์อัจฉริยะ
+        </div>
+    </footer>
 
+    <!-- =====================================================
+         MODAL
+    ===================================================== -->
+    <div class="modal fade" id="lockerActionModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border:0; border-radius:24px; overflow:hidden;">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="lockerModalTitle">📦 ฝากของ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                
+                <div class="modal-body p-4">
+                    <div id="lockerModalMessage" class="text-muted mb-3"></div>
 
-        lockerContainer.appendChild(
-            card
-        );
+                    <!-- ส่วนที่เพิ่มใหม่ (ข้อมูลนักศึกษา) -->
+                    <div id="studentInfoFields">
+                        <label class="form-label fw-bold">🆔 รหัสนักศึกษา</label>
+                        <input type="text" id="studentId" class="form-control mb-3" placeholder="เช่น 661234567">
+                        
+                        <label class="form-label fw-bold">👤 ชื่อ-สกุล</label>
+                        <input type="text" id="studentName" class="form-control mb-3" placeholder="กรอกชื่อ-สกุล">
+                        
+                        <label class="form-label fw-bold">🎓 คณะ</label>
+                        <input type="text" id="studentFaculty" class="form-control mb-3" placeholder="เช่น บริหารธุรกิจ">
+                        
+                        <hr>
+                    </div>
 
+                    <label class="form-label fw-bold">🔐 รหัสผ่านตู้ (4 หลัก)</label>
+                    <input type="password" id="lockerPassword" class="form-control form-control-lg text-center"
+                        maxlength="4" inputmode="numeric" autocomplete="off" placeholder="กรอกรหัส 4 หลัก">
 
-        if (occupied) {
+                    <div id="lockerModalError" class="alert alert-danger mt-3 d-none"></div>
+                </div>
 
-            updateLockerTime(
-                id,
-                locker.start_time
-            );
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                    <button type="button" id="lockerConfirmBtn" class="btn btn-primary">ยืนยัน</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- =====================================================
+         BOOTSTRAP
+    ===================================================== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- =====================================================
+         FIREBASE
+    ===================================================== -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getDatabase, ref, onValue, get, set, push } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+        /* =====================================================
+           FIREBASE CONFIG
+        ===================================================== */
+        const firebaseConfig = {
+            apiKey: "AIzaSyARnzW3_ECpYOsKpKeP_KT90kgJImvGzOg",
+            authDomain: "smartboxx-2b81e.firebaseapp.com",
+            databaseURL: "https://smartboxx-2b81e-default-rtdb.firebaseio.com",
+            projectId: "smartboxx-2b81e",
+            storageBucket: "smartboxx-2b81e.firebasestorage.app",
+            messagingSenderId: "1000015980584",
+            appId: "1:1000015980584:web:0dc78a8319a4272d15ed1d",
+            measurementId: "G-3KC8NRT65H"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        /* =====================================================
+           ELEMENTS & REF
+        ===================================================== */
+        const lockerContainer = document.getElementById("lockerContainer");
+        const connectionStatus = document.getElementById("connectionStatus");
+        const lockersRef = ref(db, "lockers");
+
+        let selectedLockerId = null;
+        let selectedAction = null;
+
+        const lockerModalElement = document.getElementById("lockerActionModal");
+        const lockerModal = new bootstrap.Modal(lockerModalElement);
+
+        /* =====================================================
+           REALTIME LOCKERS
+        ===================================================== */
+        onValue(lockersRef, (snapshot) => {
+            const data = snapshot.val() || {};
+            connectionStatus.className = "badge text-bg-success";
+            connectionStatus.innerHTML = `<i class="bi bi-wifi"></i> เชื่อมต่อแล้ว`;
+            renderLockers(data);
+        }, (error) => {
+            console.error("Firebase Error:", error);
+            connectionStatus.className = "badge text-bg-danger";
+            connectionStatus.innerHTML = `<i class="bi bi-wifi-off"></i> เชื่อมต่อไม่ได้`;
+        });
+
+        /* =====================================================
+           RENDER LOCKERS
+        ===================================================== */
+        function renderLockers(data) {
+            lockerContainer.innerHTML = "";
+            for (let i = 1; i <= 3; i++) {
+                const id = String(i).padStart(2, "0");
+                const locker = data[id] || {};
+                const occupied = String(locker.status).toLowerCase() === "occupied";
+                const card = document.createElement("div");
+                card.className = "col-md-4";
+
+                card.innerHTML = `
+                <div class="locker-card ${occupied ? "occupied" : "available"}">
+                    <div class="locker-head">
+                        <div class="locker-number">
+                            <div class="locker-icon"><i class="bi bi-box-seam"></i></div>
+                            <div>
+                                <div class="locker-label">SMART LOCKER</div>
+                                <h3 class="locker-title">ตู้หมายเลข #${id}</h3>
+                            </div>
+                        </div>
+                        ${occupied 
+                            ? `<div class="status-pill status-occupied"><span class="status-dot"></span> ไม่ว่าง</div>` 
+                            : `<div class="status-pill status-available"><span class="status-dot"></span> ว่าง</div>`
+                        }
+                    </div>
+                    <div class="locker-body">
+                        ${occupied 
+                            ? `
+                            <div class="info-row">
+                                <div class="info-label"><i class="bi bi-clock me-1"></i> เวลาเริ่มฝาก</div>
+                                <div class="info-value">${formatDateTime(locker.start_time)}</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label"><i class="bi bi-hourglass-split me-1"></i> ระยะเวลาใช้งาน</div>
+                                <div class="info-value" id="duration-${id}">กำลังคำนวณ...</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label"><i class="bi bi-cash-stack me-1"></i> ค่าบริการปัจจุบัน</div>
+                                <div class="current-price" id="price-${id}">กำลังคำนวณ...</div>
+                            </div>
+                            ` 
+                            : `
+                            <div class="available-message">
+                                <div class="available-icon"><i class="bi bi-check-circle-fill"></i></div>
+                                <div>สามารถฝากของได้</div>
+                                <div class="small text-muted mt-1">ตู้นี้พร้อมให้บริการ</div>
+                            </div>
+                            `
+                        }
+                    </div>
+                    ${occupied 
+                        ? `
+                        <div class="text-center mt-3">
+                            <div class="small text-muted mb-2">💰 10 บาท / ชั่วโมง</div>
+                            <button class="action-btn pickup-btn" onclick="openLockerAction('${id}', 'pickup')">
+                                <i class="bi bi-unlock-fill me-2"></i> รับของคืน
+                            </button>
+                        </div>
+                        ` 
+                        : `
+                        <div class="text-center mt-3">
+                            <button class="action-btn deposit-btn" onclick="openLockerAction('${id}', 'deposit')">
+                                <i class="bi bi-box-arrow-in-down me-2"></i> ฝากของ
+                            </button>
+                        </div>
+                        `
+                    }
+                </div>`;
+                lockerContainer.appendChild(card);
+                if (occupied) {
+                    updateLockerTime(id, locker.start_time);
+                }
+            }
         }
 
-    }
-
-}
-
-
-/* =====================================================
-   OPEN ACTION
-===================================================== */
-
-window.openLockerAction =
-function(id, action) {
-
-    selectedLockerId = id;
-
-    selectedAction = action;
-
-
-    const title =
-        document.getElementById(
-            "lockerModalTitle"
-        );
-
-    const message =
-        document.getElementById(
-            "lockerModalMessage"
-        );
-
-    const password =
-        document.getElementById(
-            "lockerPassword"
-        );
-
-    const error =
-        document.getElementById(
-            "lockerModalError"
-        );
-
-    const confirmBtn =
-        document.getElementById(
-            "lockerConfirmBtn"
-        );
-
-
-    password.value = "";
-
-    error.classList.add(
-        "d-none"
-    );
-
-
-    if (
-        action === "deposit"
-    ) {
-
-        title.innerHTML =
-            "📦 ฝากของ";
-
-
-        message.innerHTML = `
-
-            คุณกำลังฝากของที่
-
-            <strong>
-                ตู้ #${id}
-            </strong>
-
-            <br>
-
-            กรุณาตั้งรหัสผ่าน 4 หลัก
-            สำหรับรับของคืน
-
-        `;
-
-
-        confirmBtn.className =
-            "btn btn-success";
-
-        confirmBtn.innerHTML =
-            "📦 ยืนยันฝากของ";
-
-    }
-
-    else {
-
-        title.innerHTML =
-            "🔓 รับของคืน";
-
-
-        message.innerHTML = `
-
-            กรุณากรอกรหัสผ่านของ
-
-            <strong>
-                ตู้ #${id}
-            </strong>
-
-            เพื่อรับของคืน
-
-        `;
-
-
-        confirmBtn.className =
-            "btn btn-danger";
-
-        confirmBtn.innerHTML =
-            "🔓 ยืนยันรับของคืน";
-
-    }
-
-
-    lockerModal.show();
-
-
-    setTimeout(
-        () => password.focus(),
-        400
-    );
-
-};
-
-
-/* =====================================================
-   CONFIRM
-===================================================== */
-
-document
-.getElementById(
-    "lockerConfirmBtn"
-)
-.addEventListener(
-    "click",
-    async () => {
-
-        const password =
-            document
-            .getElementById(
-                "lockerPassword"
-            )
-            .value
-            .trim();
-
-
-        const errorBox =
-            document
-            .getElementById(
-                "lockerModalError"
-            );
-
-
-        const confirmBtn =
-            document
-            .getElementById(
-                "lockerConfirmBtn"
-            );
-
-
-        errorBox.classList.add(
-            "d-none"
-        );
-
-
-        /* =============================================
-           VALIDATE
-        ============================================= */
-
-        if (
-            !/^\d{4}$/.test(
-                password
-            )
-        ) {
-
-            errorBox.innerText =
-                "⚠️ กรุณากรอกรหัสผ่านตัวเลข 4 หลัก";
-
-            errorBox.classList.remove(
-                "d-none"
-            );
-
-            return;
-        }
-
-
-        if (!selectedLockerId) {
-
-            return;
-
-        }
-
-
-        try {
-
-            confirmBtn.disabled =
-                true;
-
-            confirmBtn.innerText =
-                "⏳ กำลังดำเนินการ...";
-
-
-            if (
-                selectedAction ===
-                "deposit"
-            ) {
-
-                await depositLocker(
-                    selectedLockerId,
-                    password
-                );
-
+        /* =====================================================
+           OPEN ACTION
+        ===================================================== */
+        window.openLockerAction = function (id, action) {
+            selectedLockerId = id;
+            selectedAction = action;
+
+            const title = document.getElementById("lockerModalTitle");
+            const message = document.getElementById("lockerModalMessage");
+            const password = document.getElementById("lockerPassword");
+            const error = document.getElementById("lockerModalError");
+            const confirmBtn = document.getElementById("lockerConfirmBtn");
+            const studentInfoFields = document.getElementById("studentInfoFields");
+            
+            // Clear inputs
+            document.getElementById("studentId").value = "";
+            document.getElementById("studentName").value = "";
+            document.getElementById("studentFaculty").value = "";
+            password.value = "";
+            error.classList.add("d-none");
+
+            if (action === "deposit") {
+                title.innerHTML = "📦 ฝากของ";
+                message.innerHTML = `กรุณากรอกข้อมูลและตั้งรหัสผ่านสำหรับ <strong>ตู้ #${id}</strong>`;
+                confirmBtn.className = "btn btn-success";
+                confirmBtn.innerHTML = "📦 ยืนยันฝากของ";
+                studentInfoFields.classList.remove("d-none"); // แสดงช่องกรอกข้อมูลนักศึกษา
+            } else {
+                title.innerHTML = "🔓 รับของคืน";
+                message.innerHTML = `กรุณากรอกรหัสผ่านของ <strong>ตู้ #${id}</strong> เพื่อรับของคืน`;
+                confirmBtn.className = "btn btn-danger";
+                confirmBtn.innerHTML = "🔓 ยืนยันรับของคืน";
+                studentInfoFields.classList.add("d-none"); // ซ่อนช่องกรอกข้อมูลนักศึกษา
             }
 
-            else {
+            lockerModal.show();
+            // Focus input (if pickup focus password, if deposit focus student id)
+            setTimeout(() => {
+                if(action === "deposit") {
+                    document.getElementById("studentId").focus();
+                } else {
+                    password.focus();
+                }
+            }, 400);
+        };
 
-                await pickupLocker(
-                    selectedLockerId,
-                    password
-                );
+        /* =====================================================
+           CONFIRM
+        ===================================================== */
+        document.getElementById("lockerConfirmBtn").addEventListener("click", async () => {
+            const password = document.getElementById("lockerPassword").value.trim();
+            const errorBox = document.getElementById("lockerModalError");
+            const confirmBtn = document.getElementById("lockerConfirmBtn");
+            
+            const studentId = document.getElementById("studentId").value.trim();
+            const studentName = document.getElementById("studentName").value.trim();
+            const studentFaculty = document.getElementById("studentFaculty").value.trim();
 
+            errorBox.classList.add("d-none");
+
+            // เช็กว่ากรอกข้อมูลครบไหม (เฉพาะตอนฝากของ)
+            if (selectedAction === "deposit") {
+                if (!studentId || !studentName || !studentFaculty) {
+                    errorBox.innerText = "⚠️ กรุณากรอกข้อมูลนักศึกษาให้ครบถ้วน";
+                    errorBox.classList.remove("d-none");
+                    return;
+                }
             }
 
-
-            lockerModal.hide();
-
-        }
-
-        catch(error) {
-
-            console.error(
-                "ACTION ERROR:",
-                error
-            );
-
-
-            errorBox.innerText =
-                "❌ " +
-                error.message;
-
-
-            errorBox.classList.remove(
-                "d-none"
-            );
-
-        }
-
-        finally {
-
-            confirmBtn.disabled =
-                false;
-
-
-            if (
-                selectedAction ===
-                "deposit"
-            ) {
-
-                confirmBtn.innerHTML =
-                    "📦 ยืนยันฝากของ";
-
+            // เช็กรหัสผ่าน 4 หลัก
+            if (!/^\d{4}$/.test(password)) {
+                errorBox.innerText = "⚠️ กรุณากรอกรหัสผ่านตัวเลข 4 หลัก";
+                errorBox.classList.remove("d-none");
+                return;
             }
 
-            else {
+            if (!selectedLockerId) return;
 
-                confirmBtn.innerHTML =
-                    "🔓 ยืนยันรับของคืน";
+            try {
+                confirmBtn.disabled = true;
+                confirmBtn.innerText = "⏳ กำลังดำเนินการ...";
 
+                if (selectedAction === "deposit") {
+                    await depositLocker(selectedLockerId, password, studentId, studentName, studentFaculty);
+                } else {
+                    await pickupLocker(selectedLockerId, password);
+                }
+                lockerModal.hide();
+            } catch (error) {
+                console.error("ACTION ERROR:", error);
+                errorBox.innerText = "❌ " + error.message;
+                errorBox.classList.remove("d-none");
+            } finally {
+                confirmBtn.disabled = false;
+                if (selectedAction === "deposit") {
+                    confirmBtn.innerHTML = "📦 ยืนยันฝากของ";
+                } else {
+                    confirmBtn.innerHTML = "🔓 ยืนยันรับของคืน";
+                }
+            }
+        });
+
+        /* =====================================================
+           DEPOSIT
+        ===================================================== */
+        async function depositLocker(lockerId, password, stId, stName, stFaculty) {
+            const lockerRef = ref(db, `lockers/${lockerId}`);
+            const snapshot = await get(lockerRef);
+            const locker = snapshot.val() || {};
+
+            if (String(locker.status).toLowerCase() === "occupied") {
+                throw new Error("ตู้นี้กำลังถูกใช้งาน");
             }
 
+            const startTime = new Date().toISOString();
+
+            const lockerData = {
+                status: "occupied",
+                start_time: startTime,
+                password: String(password),
+                student_id: stId,
+                student_name: stName,
+                faculty: stFaculty
+            };
+
+            await set(lockerRef, lockerData);
+            alert(`✅ ฝากของสำเร็จ\n\nตู้ #${lockerId}\nชื่อ: ${stName}\nรหัสผ่าน: ${password}\n\nกรุณาจำรหัสผ่านไว้สำหรับรับของคืน`);
         }
 
-    }
-);
-
-
-/* =====================================================
-   DEPOSIT
-===================================================== */
-
-async function depositLocker(
-    lockerId,
-    password
-) {
-
-    const lockerRef =
-        ref(
-            db,
-            `lockers/${lockerId}`
-        );
-
-
-    const snapshot =
-        await get(
-            lockerRef
-        );
-
-
-    const locker =
-        snapshot.val() || {};
-
-
-    if (
-        String(locker.status)
-        .toLowerCase()
-        ===
-        "occupied"
-    ) {
-
-        throw new Error(
-            "ตู้นี้กำลังถูกใช้งาน"
-        );
-
-    }
-
-
-    const startTime =
-        new Date().toISOString();
-
-
-    /*
-       สำคัญมาก
-
-       บันทึกรหัสเป็น STRING
-       เช่น "1234"
-
-       ไม่บันทึกเป็น Number
-    */
-
-    const lockerData = {
-
-        status:
-            "occupied",
-
-        start_time:
-            startTime,
-
-        password:
-            String(password)
-
-    };
-
-
-    await set(
-        lockerRef,
-        lockerData
-    );
-
-
-    alert(
-
-        `✅ ฝากของสำเร็จ\n\n` +
-
-        `ตู้ #${lockerId}\n` +
-
-        `รหัสผ่าน: ${password}\n\n` +
-
-        `กรุณาจำรหัสผ่านไว้สำหรับรับของคืน`
-
-    );
-
-}
-
-
-/* =====================================================
-   PICKUP
-===================================================== */
-
-async function pickupLocker(
-    lockerId,
-    password
-) {
-
-    const lockerRef =
-        ref(
-            db,
-            `lockers/${lockerId}`
-        );
-
-
-    const snapshot =
-        await get(
-            lockerRef
-        );
-
-
-    const locker =
-        snapshot.val() || {};
-
-
-    console.log(
-        "ข้อมูลตู้ที่อ่านจาก Firebase:",
-        locker
-    );
-
-
-    /* =============================================
-       CHECK STATUS
-    ============================================= */
-
-    if (
-        String(locker.status)
-        .toLowerCase()
-        !==
-        "occupied"
-    ) {
-
-        throw new Error(
-            "ตู้นี้ไม่มีของอยู่"
-        );
-
-    }
-
-
-    /* =============================================
-       GET PASSWORD
-    =============================================
-
-       รองรับทั้ง
-
-       password
-       pin
-       passcode
-
-    ============================================= */
-
-    let savedPassword =
-        locker.password;
-
-
-    if (
-        savedPassword ===
-        undefined ||
-        savedPassword ===
-        null
-    ) {
-
-        savedPassword =
-            locker.pin;
-
-    }
-
-
-    if (
-        savedPassword ===
-        undefined ||
-        savedPassword ===
-        null
-    ) {
-
-        savedPassword =
-            locker.passcode;
-
-    }
-
-
-    /* =============================================
-       PASSWORD NORMALIZE
-    ============================================= */
-
-    const saved =
-        String(
-            savedPassword ?? ""
-        )
-        .trim();
-
-
-    const entered =
-        String(
-            password
-        )
-        .trim();
-
-
-    console.log(
-        "รหัสที่บันทึก:",
-        saved
-    );
-
-    console.log(
-        "รหัสที่กรอก:",
-        entered
-    );
-
-
-    /* =============================================
-       CHECK PASSWORD
-    ============================================= */
-
-    if (
-        saved.length === 0
-    ) {
-
-        throw new Error(
-            "ไม่พบรหัสผ่านของตู้ กรุณาฝากของใหม่อีกครั้ง"
-        );
-
-    }
-
-
-    if (
-        saved !== entered
-    ) {
-
-        throw new Error(
-            "รหัสผ่านไม่ถูกต้อง"
-        );
-
-    }
-
-
-    /* =============================================
-       TIME
-    ============================================= */
-
-    const startTime =
-        new Date(
-            locker.start_time
-        );
-
-
-    const endTime =
-        new Date();
-
-
-    if (
-        isNaN(
-            startTime.getTime()
-        )
-    ) {
-
-        throw new Error(
-            "ข้อมูลเวลาเริ่มฝากไม่ถูกต้อง"
-        );
-
-    }
-
-
-    const diff =
-        Math.max(
-            0,
-            endTime - startTime
-        );
-
-
-    const durationMinutes =
-        Math.floor(
-            diff / 60000
-        );
-
-
-    /* =============================================
-       PRICE
-    ============================================= */
-
-    const chargeHours =
-        Math.max(
-            1,
-            Math.ceil(
-                durationMinutes / 60
-            )
-        );
-
-
-    const price =
-        chargeHours * 10;
-
-
-    /* =============================================
-       TRANSACTION
-    ============================================= */
-
-    const transaction = {
-
-        locker_id:
-            lockerId,
-
-        start_time:
-            startTime.toISOString(),
-
-        end_time:
-            endTime.toISOString(),
-
-        duration_minutes:
-            durationMinutes,
-
-        price:
-            price,
-
-        payment_status:
-            "paid",
-
-        created_at:
-            endTime.toISOString()
-
-    };
-
-
-    const transactionRef =
-        ref(
-            db,
-            "transactions"
-        );
-
-
-    await push(
-        transactionRef,
-        transaction
-    );
-
-
-    /* =============================================
-       CLEAR LOCKER
-    ============================================= */
-
-    await set(
-
-        lockerRef,
-
-        {
-
-            status:
-                "vacant"
-
+        /* =====================================================
+           PICKUP
+        ===================================================== */
+        async function pickupLocker(lockerId, password) {
+            const lockerRef = ref(db, `lockers/${lockerId}`);
+            const snapshot = await get(lockerRef);
+            const locker = snapshot.val() || {};
+
+            if (String(locker.status).toLowerCase() !== "occupied") {
+                throw new Error("ตู้นี้ไม่มีของอยู่");
+            }
+
+            let savedPassword = locker.password ?? locker.pin ?? locker.passcode;
+            const saved = String(savedPassword ?? "").trim();
+            const entered = String(password).trim();
+
+            if (saved.length === 0) {
+                throw new Error("ไม่พบรหัสผ่านของตู้ กรุณาฝากของใหม่อีกครั้ง");
+            }
+            if (saved !== entered) {
+                throw new Error("รหัสผ่านไม่ถูกต้อง");
+            }
+
+            const startTime = new Date(locker.start_time);
+            const endTime = new Date();
+
+            if (isNaN(startTime.getTime())) {
+                throw new Error("ข้อมูลเวลาเริ่มฝากไม่ถูกต้อง");
+            }
+
+            const diff = Math.max(0, endTime - startTime);
+            const durationMinutes = Math.floor(diff / 60000);
+            const chargeHours = Math.max(1, Math.ceil(durationMinutes / 60));
+            const price = chargeHours * 10;
+
+            const transaction = {
+                locker_id: lockerId,
+                start_time: startTime.toISOString(),
+                end_time: endTime.toISOString(),
+                duration_minutes: durationMinutes,
+                price: price,
+                payment_status: "paid",
+                created_at: endTime.toISOString(),
+                // บันทึกประวัติผู้ใช้งานลงไปใน Transaction ด้วย
+                student_id: locker.student_id || "N/A",
+                student_name: locker.student_name || "N/A",
+                faculty: locker.faculty || "N/A"
+            };
+
+            const transactionRef = ref(db, "transactions");
+            await push(transactionRef, transaction);
+            await set(lockerRef, { status: "vacant" });
+
+            alert(`✅ รับของคืนสำเร็จ\n\nตู้ #${lockerId}\nเวลาใช้งาน: ${formatDuration(durationMinutes)}\nค่าบริการ: ${price.toLocaleString()} บาท`);
         }
 
-    );
+        /* =====================================================
+           REALTIME TIMER
+        ===================================================== */
+        function updateLockerTime(id, startTime) {
+            function update() {
+                const start = new Date(startTime);
+                const now = new Date();
+                if (isNaN(start.getTime())) return;
 
+                const diff = Math.max(0, now - start);
+                const minutes = Math.floor(diff / 60000);
+                const hours = Math.floor(minutes / 60);
+                const mins = minutes % 60;
 
-    alert(
+                const durationElement = document.getElementById(`duration-${id}`);
+                const priceElement = document.getElementById(`price-${id}`);
 
-        `✅ รับของคืนสำเร็จ\n\n` +
+                if (!durationElement) return;
 
-        `ตู้ #${lockerId}\n` +
+                durationElement.innerText = `${hours} ชั่วโมง ${mins} นาที`;
+                const chargeHours = Math.max(1, Math.ceil(minutes / 60));
+                const price = chargeHours * 10;
 
-        `เวลาใช้งาน: ` +
-
-        formatDuration(
-            durationMinutes
-        ) +
-
-        `\nค่าบริการ: ` +
-
-        price.toLocaleString() +
-
-        ` บาท`
-
-    );
-
-}
-
-
-/* =====================================================
-   REALTIME TIMER
-===================================================== */
-
-function updateLockerTime(
-    id,
-    startTime
-) {
-
-    function update() {
-
-        const start =
-            new Date(
-                startTime
-            );
-
-        const now =
-            new Date();
-
-
-        if (
-            isNaN(
-                start.getTime()
-            )
-        ) {
-
-            return;
-
+                if (priceElement) {
+                    priceElement.innerText = `${price.toLocaleString()} บาท`;
+                }
+            }
+            update();
+            setInterval(update, 1000);
         }
 
-
-        const diff =
-            Math.max(
-                0,
-                now - start
-            );
-
-
-        const minutes =
-            Math.floor(
-                diff / 60000
-            );
-
-
-        const hours =
-            Math.floor(
-                minutes / 60
-            );
-
-
-        const mins =
-            minutes % 60;
-
-
-        const durationElement =
-            document.getElementById(
-                `duration-${id}`
-            );
-
-
-        const priceElement =
-            document.getElementById(
-                `price-${id}`
-            );
-
-
-        if (
-            !durationElement
-        ) {
-
-            return;
-
+        /* =====================================================
+           FORMAT DATE & DURATION
+        ===================================================== */
+        function formatDateTime(value) {
+            if (!value) return "-";
+            const date = new Date(value);
+            if (isNaN(date.getTime())) return "-";
+            return date.toLocaleString("th-TH", { timeZone: "Asia/Bangkok", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" });
         }
 
-
-        durationElement.innerText =
-
-            `${hours} ชั่วโมง ${mins} นาที`;
-
-
-        const chargeHours =
-            Math.max(
-                1,
-                Math.ceil(
-                    minutes / 60
-                )
-            );
-
-
-        const price =
-            chargeHours * 10;
-
-
-        if (
-            priceElement
-        ) {
-
-            priceElement.innerText =
-
-                `${price.toLocaleString()} บาท`;
-
+        function formatDuration(minutes) {
+            if (minutes <= 0) return "0 นาที";
+            const hours = Math.floor(minutes / 60);
+            const mins = minutes % 60;
+            if (hours === 0) return `${mins} นาที`;
+            if (mins === 0) return `${hours} ชั่วโมง`;
+            return `${hours} ชั่วโมง ${mins} นาที`;
         }
 
-    }
+        /* =====================================================
+           PASSWORD INPUT
+        ===================================================== */
+        document.getElementById("lockerPassword").addEventListener("input", function () {
+            this.value = this.value.replace(/\D/g, "").slice(0, 4);
+        });
 
+        document.getElementById("lockerPassword").addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                document.getElementById("lockerConfirmBtn").click();
+            }
+        });
 
-    update();
-
-
-    setInterval(
-        update,
-        1000
-    );
-
-}
-
-
-/* =====================================================
-   FORMAT DATE
-===================================================== */
-
-function formatDateTime(value) {
-
-    if (!value) {
-        return "-";
-    }
-
-
-    const date =
-        new Date(value);
-
-
-    if (
-        isNaN(
-            date.getTime()
-        )
-    ) {
-
-        return "-";
-
-    }
-
-
-    return date.toLocaleString(
-        "th-TH",
-        {
-            timeZone:
-                "Asia/Bangkok",
-
-            year:
-                "numeric",
-
-            month:
-                "2-digit",
-
-            day:
-                "2-digit",
-
-            hour:
-                "2-digit",
-
-            minute:
-                "2-digit",
-
-            second:
-                "2-digit"
-        }
-    );
-
-}
-
-
-/* =====================================================
-   FORMAT DURATION
-===================================================== */
-
-function formatDuration(minutes) {
-
-    if (
-        minutes <= 0
-    ) {
-
-        return "0 นาที";
-
-    }
-
-
-    const hours =
-        Math.floor(
-            minutes / 60
-        );
-
-
-    const mins =
-        minutes % 60;
-
-
-    if (
-        hours === 0
-    ) {
-
-        return `${mins} นาที`;
-
-    }
-
-
-    if (
-        mins === 0
-    ) {
-
-        return `${hours} ชั่วโมง`;
-
-    }
-
-
-    return `${hours} ชั่วโมง ${mins} นาที`;
-
-}
-
-
-/* =====================================================
-   PASSWORD INPUT
-===================================================== */
-
-document
-.getElementById(
-    "lockerPassword"
-)
-.addEventListener(
-    "input",
-    function() {
-
-        this.value =
-            this.value
-            .replace(
-                /\D/g,
-                ""
-            )
-            .slice(
-                0,
-                4
-            );
-
-    }
-);
-
-
-/* =====================================================
-   ENTER
-===================================================== */
-
-document
-.getElementById(
-    "lockerPassword"
-)
-.addEventListener(
-    "keydown",
-    function(event) {
-
-        if (
-            event.key ===
-            "Enter"
-        ) {
-
-            document
-            .getElementById(
-                "lockerConfirmBtn"
-            )
-            .click();
-
-        }
-
-    }
-);
-
-</script>
-
+    </script>
 </body>
 
 </html>
